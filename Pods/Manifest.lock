@@ -1,0 +1,17 @@
+PODS:
+  - EVReflection (2.2.0)
+  - RxCocoa (1.7):
+    - RxSwift
+  - RxSwift (1.7)
+
+DEPENDENCIES:
+  - EVReflection
+  - RxCocoa (~> 1.7)
+  - RxSwift (~> 1.7)
+
+SPEC CHECKSUMS:
+  EVReflection: 2bc64f71b70acaba5d61e88b8f3c0e3aee7b9efc
+  RxCocoa: 2c7faa37d5ac8bd94825c0953a3778a8b0aa6384
+  RxSwift: 10544d9e14377965605f5c7aebffe590f7272ebe
+
+COCOAPODS: 0.37.2
