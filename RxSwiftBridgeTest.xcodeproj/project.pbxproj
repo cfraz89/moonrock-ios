@@ -22,6 +22,7 @@
 		1B6898DD1B4BA8880035EFC9 /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = 1B6898DC1B4BA8880035EFC9 /* Assets */; };
 		1B88A60A1B5BBE7900CD4047 /* MRHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B88A6091B5BBE7900CD4047 /* MRHelper.swift */; };
 		1B88A60C1B5BDDDA00CD4047 /* MRReversePusher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B88A60B1B5BDDDA00CD4047 /* MRReversePusher.swift */; };
+		1B88A60E1B5C658300CD4047 /* MRReversePusherProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B88A60D1B5C658300CD4047 /* MRReversePusherProtocol.swift */; };
 		1BC528171B4CC3AB003B4AB7 /* MoonRockModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC528161B4CC3AB003B4AB7 /* MoonRockModule.swift */; };
 		1BC528191B4CC825003B4AB7 /* MRNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC528181B4CC825003B4AB7 /* MRNavigationDelegate.swift */; };
 		1BC5281B1B5720C7003B4AB7 /* MRStreamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC5281A1B5720C7003B4AB7 /* MRStreamManager.swift */; };
@@ -60,6 +61,7 @@
 		1B6898DC1B4BA8880035EFC9 /* Assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Assets; sourceTree = "<group>"; };
 		1B88A6091B5BBE7900CD4047 /* MRHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRHelper.swift; sourceTree = "<group>"; };
 		1B88A60B1B5BDDDA00CD4047 /* MRReversePusher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRReversePusher.swift; sourceTree = "<group>"; };
+		1B88A60D1B5C658300CD4047 /* MRReversePusherProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRReversePusherProtocol.swift; sourceTree = "<group>"; };
 		1BC528161B4CC3AB003B4AB7 /* MoonRockModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoonRockModule.swift; sourceTree = "<group>"; };
 		1BC528181B4CC825003B4AB7 /* MRNavigationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRNavigationDelegate.swift; sourceTree = "<group>"; };
 		1BC5281A1B5720C7003B4AB7 /* MRStreamManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRStreamManager.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				1BC5281C1B572144003B4AB7 /* MRReversePortalManager.swift */,
 				1B88A6091B5BBE7900CD4047 /* MRHelper.swift */,
 				1B88A60B1B5BDDDA00CD4047 /* MRReversePusher.swift */,
+				1B88A60D1B5C658300CD4047 /* MRReversePusherProtocol.swift */,
 			);
 			name = Bridge;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 				1B3379DB1B4C3DA400257BA5 /* PostsDataSource.swift in Sources */,
 				1BC528171B4CC3AB003B4AB7 /* MoonRockModule.swift in Sources */,
 				1B6898DB1B4B6FDF0035EFC9 /* MoonRock.swift in Sources */,
+				1B88A60E1B5C658300CD4047 /* MRReversePusherProtocol.swift in Sources */,
 				1B6898BA1B4B6EF20035EFC9 /* AppDelegate.swift in Sources */,
 				1B3379D91B4C3C8600257BA5 /* PostCell.swift in Sources */,
 			);

@@ -11,34 +11,28 @@ import WebKit
 import RxSwift
 
 class MRStreamManager : NSObject, WKScriptMessageHandler {
-    //var streams: [String: BridgeMessageStreamProtocol]
+    var pushers: [String: MRReversePusherProtocol]
     
     override init() {
-        //streams = [String: BridgeMessageStreamProtocol]()
+        self.pushers = [String: MRReversePusherProtocol]()
         super.init()
+       
     }
-    /*
-    func streamFor<T: EVObject>(streamName: String, streamClass: T) -> BridgeMessageStream<T> {
-        var stream = self.streams[streamName];
-        if (stream == nil) {
-            stream = BridgeMessageStream<T>()
-            self.streams[streamName] = stream
-        }
-        return stream as! BridgeMessageStream<T>
-    }
-    */
+    
     func userContentController(userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
         let bridgeMessage = message.body as! NSDictionary
         let data = bridgeMessage["data"]
         let streamName = bridgeMessage["stream"] as! String
-        //let stream = self.streams[streamName] as BridgeMessageStreamProtocol?
-        //stream!.push(data as! String)
+        
+        if let pusher = self.pushers[streamName] {
+            pusher.push(data as! String)
+        }
     }
     
     func openStream<T>(key:String, pusher: MRReversePusher<T>) -> Observable<T> {
+        pushers[key] = pusher
         return create { subscriber in
-            pusher.addSubscriber(subscriber)
-            return AnonymousDisposable {}
+            return pusher.addSubscriber(subscriber)
         }
     }
 
