@@ -17,43 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zb2-PO-byd">
-                                <rect key="frame" x="32" y="28" width="46" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="XDW-de-a5B"/>
-                                    <constraint firstAttribute="height" constant="30" id="dhY-PU-RR5"/>
-                                </constraints>
-                                <state key="normal" title="Button">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="Instawin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Bcd-k8-QRs"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EPG-Yf-6af">
-                                <rect key="frame" x="32" y="66" width="42" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="aZK-zr-J8Y"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c88-DZ-Ciz">
-                                <rect key="frame" x="32" y="114" width="46" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="Evw-79-lN6"/>
-                                    <constraint firstAttribute="width" constant="46" id="lFW-4z-OM8"/>
-                                </constraints>
-                                <state key="normal" title="Button">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="Netwin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zRY-fd-iQm"/>
-                                </connections>
-                            </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="173" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="mZR-Je-olF">
-                                <rect key="frame" x="32" y="152" width="552" height="434"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="173" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="mZR-Je-olF">
+                                <rect key="frame" x="32" y="84" width="552" height="502"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="post" rowHeight="173" id="qnc-pX-eNh" customClass="PostCell" customModule="RxSwiftBridgeTest" customModuleProvider="target">
@@ -95,23 +60,45 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gxX-wg-oD9">
+                                <rect key="frame" x="32" y="29" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eX4-O9-UD7">
+                                <rect key="frame" x="153" y="28" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zb2-PO-byd">
+                                <rect key="frame" x="277" y="28" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="46" id="XDW-de-a5B"/>
+                                    <constraint firstAttribute="height" constant="30" id="dhY-PU-RR5"/>
+                                </constraints>
+                                <state key="normal" title="Add">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4f6-V7-rPb">
+                                <rect key="frame" x="332" y="33" width="237" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="mZR-Je-olF" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="0LG-1O-HEN"/>
-                            <constraint firstItem="Zb2-PO-byd" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="1vs-RQ-paj"/>
-                            <constraint firstItem="c88-DZ-Ciz" firstAttribute="top" secondItem="EPG-Yf-6af" secondAttribute="bottom" constant="27" id="D6c-Wu-PPP"/>
-                            <constraint firstItem="c88-DZ-Ciz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="16" id="DAE-1z-2Mn"/>
-                            <constraint firstItem="Zb2-PO-byd" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="16" id="HdN-5s-u6V"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="mZR-Je-olF" secondAttribute="bottom" constant="14" id="ZYW-57-8ab"/>
                             <constraint firstItem="mZR-Je-olF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="16" id="bIr-9I-bWI"/>
-                            <constraint firstItem="EPG-Yf-6af" firstAttribute="top" secondItem="Zb2-PO-byd" secondAttribute="bottom" constant="8" id="mrb-Xj-2Bi"/>
-                            <constraint firstItem="mZR-Je-olF" firstAttribute="top" secondItem="c88-DZ-Ciz" secondAttribute="bottom" constant="8" id="pNc-VA-LIf"/>
-                            <constraint firstItem="EPG-Yf-6af" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="16" id="rze-Yc-qb3"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="InstaLabel" destination="EPG-Yf-6af" id="bpO-HD-qOO"/>
+                        <outlet property="Add1" destination="gxX-wg-oD9" id="x4Q-8P-Giv"/>
+                        <outlet property="Add2" destination="eX4-O9-UD7" id="Ub4-aO-T8e"/>
+                        <outlet property="AddButton" destination="Zb2-PO-byd" id="sPo-Fq-3Q7"/>
+                        <outlet property="AddResult" destination="4f6-V7-rPb" id="bDw-Hl-0AE"/>
                         <outlet property="TableView" destination="mZR-Je-olF" id="NBg-rb-tWt"/>
                     </connections>
                 </viewController>

@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "removeComments": true
+    },
+    "files": [
+        "./moonrock.ts",
+        "./moonrockmodule.ts",
+        "./mrhelper.ts",
+        "./typings.d.ts"
+    ]
+}
