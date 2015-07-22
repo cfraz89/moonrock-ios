@@ -7,7 +7,9 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol MRReversePusherProtocol {
-    func push(data: String)
+    func push(data: AnyObject)
+    func removeSubscriber(key: Bag<Void>.KeyType)
 }

@@ -19,7 +19,7 @@ class MoonRock {
     let reversePortalManager: MRReversePortalManager
 
     var loadedModules: Dictionary<String, MoonRockModule>
-    var webView: WKWebView
+    var webView: WKWebView?
     
     private var webViewNavigationDelegate: MRNavigationDelegate
     private let readySubject: PublishSubject<MoonRock>
@@ -47,9 +47,8 @@ class MoonRock {
         _baseUrl = DEFAULT_BASE
         pageUrl = DEFAULT_PAGE
         
+        webView = nil
         webViewNavigationDelegate = MRNavigationDelegate(baseUrl: _baseUrl)
-        webView = WKWebView(frame: CGRect())
-        webView.navigationDelegate = webViewNavigationDelegate
         setupWebView()
     }
     
@@ -60,18 +59,30 @@ class MoonRock {
     }
     
     func setupWebView() {
+        
         var contentController = WKUserContentController()
-        contentController.addScriptMessageHandler(reversePortalManager, name: "streamInterface")
-        contentController.addScriptMessageHandler(streamManager, name: "reversePortalInterface")
-        webView.configuration.userContentController = contentController
+        contentController.addScriptMessageHandler(streamManager, name: "streamInterface")
+        contentController.addScriptMessageHandler(reversePortalManager, name: "reversePortalInterface")
+        var configuration = WKWebViewConfiguration()
+        configuration.userContentController = contentController
+        
+        webView = WKWebView(frame: CGRect(), configuration: configuration)
+        webView!.navigationDelegate = webViewNavigationDelegate
     }
     
     func load() {
         //var url = NSBundle.mainBundle().URLForResource("Assets/bridge", withExtension: "html");
-        var url = NSURL(string: "http://localhost:8081/bridge.html")
+        var url = NSURL(string: "\(baseUrl)/\(pageUrl)")
         
-        webView.loadRequest(NSURLRequest(URL: url!))
-        webView.reloadFromOrigin()
+        var pusher = MRSingleShotReversePusher<NSNumber>()
+        streamManager.openStream("moonrock-configured", pusher: pusher)
+            >- subscribeNext { _ in
+                sendNext(self.readySubject, self)
+                sendCompleted(self.readySubject)
+            }
+        
+        webView!.loadRequest(NSURLRequest(URL: url!))
+        webView!.reloadFromOrigin()
     }
     
     func loadModule(moduleName: String, instanceName: String, host: NSObject) -> Observable<MoonRockModule> {
@@ -108,6 +119,6 @@ class MoonRock {
     }
     
     func runJS(js: String, callback:((AnyObject!, NSError!)->Void)?) {
-        self.webView.evaluateJavaScript(js, completionHandler: callback)
+        self.webView!.evaluateJavaScript(js, completionHandler: callback)
     }
 }

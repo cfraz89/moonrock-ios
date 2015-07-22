@@ -9,6 +9,7 @@
 import Foundation
 import WebKit
 import RxSwift
+import EVReflection
 
 class MRStreamManager : NSObject, WKScriptMessageHandler {
     var pushers: [String: MRReversePusherProtocol]
@@ -20,12 +21,11 @@ class MRStreamManager : NSObject, WKScriptMessageHandler {
     }
     
     func userContentController(userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
-        let bridgeMessage = message.body as! NSDictionary
-        let data = bridgeMessage["data"]
-        let streamName = bridgeMessage["stream"] as! String
-        
+        let body = message.body as! NSDictionary
+        let data = body["data"]
+        let streamName = body["streamName"] as! String
         if let pusher = self.pushers[streamName] {
-            pusher.push(data as! String)
+            pusher.push(data!)
         }
     }
     

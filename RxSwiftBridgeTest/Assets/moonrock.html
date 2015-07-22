@@ -6,6 +6,23 @@
 System.import('moonrock/mrhelper').then (function(mod) {
     window.mrhelper = new mod.MRHelper()
     streamInterface.push(true, 'moonrock-configured')
-})
+});
+
+function prep(baseUrl, platform) {
+  System.config({baseUrl: baseUrl})
+  if (platform == 'ios') {
+    window.streamInterface = {
+      push: function(data, streamName) {
+        webkit.messageHandlers.streamInterface.postMessage({data: data, streamName: streamName})
+      }
+    }
+
+    window.reversePortalInterface = {
+      onNext: function(data, portalName) {
+        webkit.messageHandlers.reversePortalInterface.postMessage({data: data, portalName: portalName})
+      }
+    }
+  }
+}
 </script>
 </html>

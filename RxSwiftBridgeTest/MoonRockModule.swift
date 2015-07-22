@@ -9,11 +9,12 @@
 import Foundation
 import EVReflection
 import RxSwift
+import OCMapper
 
 class MoonRockModule {
     let moonrock: MoonRock
     let mrhelper: MRHelper
-    var moduleName: String?
+    var moduleName: String
     let loadedName: String
     
     var portalHost: NSObject
@@ -32,9 +33,9 @@ class MoonRockModule {
     }
     
     func load() -> PublishSubject<MoonRockModule> {
-        self.mrhelper.run("loadModule", args: "module")
+        self.mrhelper.run("loadModule", args: self.moduleName, self.loadedName)
         
-        var pusher = MRReversePusher<String>()
+        var pusher = MRReversePusher<NSString>()
         var loaded = self.moonrock.streamManager.openStream(self.loadedName, pusher: pusher)
         loaded >- subscribeNext {_ in
             sendNext(self.ready, self)
@@ -50,8 +51,21 @@ class MoonRockModule {
         return resultObservable
     }
     
-    func portal<T>(observable: Observable<T>, name: String) {
+    func portal<T: NSObject>(observable: Observable<T>, name: String) {
         mrhelper.run("portal", args: self.loadedName, name)
+        observable >- subscribeNext { data in
+            var jsonString = "";
+            if (T.self === NSString.self) {
+                jsonString = data as! String;
+            } else {
+                var serializedData = ObjectMapper.sharedInstance().dictionaryFromObject(data)
+                println(serializedData);
+                var jsonData = NSJSONSerialization.dataWithJSONObject(serializedData, options: NSJSONWritingOptions.PrettyPrinted, error: NSErrorPointer())
+                println(jsonData);
+                var jsonString = NSString(data: jsonData!, encoding: NSUTF8StringEncoding)
+            }
+            self.mrhelper.run("activatePortal", args: self.loadedName, name, jsonString)
+        }
     }
     
     func reversePortal<T>(name: String) -> Observable<T> {

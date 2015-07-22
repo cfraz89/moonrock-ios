@@ -21,9 +21,9 @@ class ViewController: UIViewController {
     var disposeBag = DisposeBag()
     var postsDataSource: PostsDataSource
     
-    var addPressed: Observable<Void>?
-    var add1Text: Observable<String>?
-    var add2Text: Observable<String>?
+    var addPressed: Observable<NSObject>?
+    var add1Text: Observable<NSString>?
+    var add2Text: Observable<NSString>?
     
     var sum: Observable<String>?
     var posts: Observable<PostList>?
@@ -34,6 +34,7 @@ class ViewController: UIViewController {
         self.postsDataSource = PostsDataSource(posts:[])
         super.init(coder: aDecoder)
         
+        self.moonRock.baseUrl = "http://localhost:8081"
         self.moonRock.loadModule("app/appmodule", instanceName: "appmodule", host: self)
             >- subscribeNext(self.setupPortals)
     }
@@ -42,9 +43,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.TableView.dataSource = self.postsDataSource
         
-        self.addPressed = AddButton.rx_tap
-        self.add1Text = Add1.rx_text
-        self.add2Text = Add2.rx_text
+        self.addPressed = AddButton.rx_tap >- map { NSObject() }
+        self.add1Text = Add1.rx_text >- map { NSString(string: $0) }
+        self.add2Text = Add2.rx_text >- map { NSString(string: $0) }
     }
     
     func setupPortals(module: MoonRockModule) {

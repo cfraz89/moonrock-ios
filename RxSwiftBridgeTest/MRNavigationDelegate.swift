@@ -21,12 +21,7 @@ class MRNavigationDelegate : NSObject, WKNavigationDelegate {
     }
     
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
-        var config = String(format:"System.config({baseURL:'%@'});" +
-            "window.streamInterface=webkit.messageHandlers.streamInterface;" +
-            "window.reversePortalInterface=webkit.messageHandlers.reversePortalInterface;", baseUrl);
-        webView.evaluateJavaScript(config, completionHandler: { (object: AnyObject!, error: NSError!) -> Void in
-            sendNext(self.readySubject!, self.moonRock!)
-            sendCompleted(self.readySubject!)
-        })
+        var config = "prep('\(baseUrl)', 'ios')";
+        webView.evaluateJavaScript(config, completionHandler: nil)
     }
 }

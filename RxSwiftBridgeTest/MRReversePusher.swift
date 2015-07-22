@@ -10,10 +10,10 @@ import Foundation
 import RxSwift
 import EVReflection
 
-class MRReversePusher<T> : MRReversePusherProtocol {
+class MRReversePusher<T: NSObject> : MRReversePusherProtocol {
     typealias KeyType = Bag<Void>.KeyType
     
-    private var subscribers: Bag<ObserverOf<T>>
+    var subscribers: Bag<ObserverOf<T>>
 
     init() {
         subscribers = Bag<ObserverOf<T>>()
@@ -21,56 +21,39 @@ class MRReversePusher<T> : MRReversePusherProtocol {
     
     func addSubscriber(observer: ObserverOf<T>) -> Disposable {
         var key = subscribers.put(observer)
-        return PusherSubscription<T>(key: key, pusher: self)
+        return PusherSubscription(key: key, pusher: self)
     }
     
     func removeSubscriber(key: KeyType) {
         subscribers.removeKey(key)
     }
     
-    func push (data: String) {
-        var object = EVReflection.swiftClassFromString(data) as! T
-        self.push(object)
+    func push (data: AnyObject) {
+        if let dict = data as? NSDictionary {
+            var object = T()
+            object.setValuesForKeysWithDictionary(dict as [NSObject : AnyObject])
+            self.push(object)
+        }
+        else {
+            self.push(data as! T)
+        }
     }
     
     func push(data: T) {
-        
         for subscriber in subscribers.all {
-            var box = RxBox<T>(data)
-            subscriber.on(Event<T>.Next(box))
+            sendNext(subscriber, data)
         }
     }
     
     func complete() {
         for subscriber in subscribers.all {
-            subscriber.on(Event<T>.Completed)
+           sendCompleted(subscriber)
         }
     }
     
     func error(error: ErrorType) {
         for subscriber in subscribers.all {
-            subscriber.on(Event<T>.Error(error))
+            sendError(subscriber, error)
         }
     }
-}
-
-class PusherSubscription<T> : Disposable {
-    
-    typealias KeyType = Bag<Void>.KeyType
-    
-    private var pusher: MRReversePusher<T>?
-    private var key: KeyType?
-    
-    init(key: KeyType, pusher: MRReversePusher<T>) {
-        self.key = key
-        self.pusher = pusher
-        
-    }
-    
-    func dispose() {
-        self.pusher!.removeSubscriber(self.key!)
-        self.key = nil
-        self.pusher = nil
-    }
-
 }
