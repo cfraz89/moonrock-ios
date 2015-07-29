@@ -43,6 +43,12 @@ class MRReversePusher<T: Mappable> : MRReversePusherProtocol {
         }
     }
     
+    func pushRaw(object: AnyObject) {
+        if let realObject = object as? T {
+            self.push(realObject)
+        }
+    }
+    
     func push(data: T) {
         for subscriber in subscribers.all {
             sendNext(subscriber, data)

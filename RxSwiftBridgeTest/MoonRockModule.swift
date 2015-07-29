@@ -60,7 +60,7 @@ class MoonRockModule {
         }
     }
     
-    func reversePortal<T>(name: String, type: T.Type) -> Observable<T> {
+    func reversePortal<T: Mappable>(name: String, type: T.Type) -> Observable<T> {
         let pusher = self.moonrock.reversePortalManager.registerReverse(name, type: type)
         mrhelper.run("reversePortal", args: self.loadedName, name)
         return create { observer in

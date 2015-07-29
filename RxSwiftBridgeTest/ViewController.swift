@@ -25,7 +25,7 @@ class ViewController: UIViewController {
     var add1Text: Observable<String>?
     var add2Text: Observable<String>?
     
-    var sum: Observable<Int>?
+    var sum: Observable<MRValue<Int>>?
     var posts: Observable<PostList>?
 
     
@@ -54,12 +54,12 @@ class ViewController: UIViewController {
         module.portal(self.add1Text!, name: "add1Text")
         module.portal(self.add2Text!, name: "add2Text")
         module.portalsGenerated()
-        self.sum = module.reversePortal("sum", type: Int.self)
+        self.sum = module.reversePortal("sum", type: MRValue<Int>.self)
         self.posts = module.reversePortal("posts", type: PostList.self)
         module.portalsLinked()
         
-        self.sum! >- subscribeNext {
-            self.AddResult.text = $0
+        self.sum! >- subscribeNext { s in
+            self.AddResult.text = String(stringInterpolationSegment: s.data)
         }
         self.posts! >- subscribeNext { postList in
             self.postsDataSource.posts = postList.data!
