@@ -12,9 +12,11 @@ import ObjectMapper
 
 class MRReversePortalManager : NSObject, WKScriptMessageHandler {
     var portals: [String: MRReversePusherProtocol]
+    var mrMapperPortals: [String: MRMappableReversePusherProtocol]
     
     override init() {
         self.portals = [String: MRReversePusherProtocol]()
+        self.mrMapperPortals = [String: MRMappableReversePusherProtocol]()
         super.init()
     }
     
@@ -25,18 +27,24 @@ class MRReversePortalManager : NSObject, WKScriptMessageHandler {
         var pusher = self.portals[portalName]
 
         if let objectData = body["data"] as? [String: AnyObject] {
-            self.portals[portalName]?.pushDictionary(objectData)
+            self.portals[portalName]?.push(objectData)
         } else {
             var data = body["data"]
-            self.portals[portalName]?.pushRaw(data!)
+            //self.mrMapperPortals[portalName]?.push(data!)
         }
         
         
     }
     
-    func registerReverse<T>(name: String, type: T.Type) -> MRReversePusher<T> {
+    func registerReverse<T: Mappable>(name: String, type: T.Type) -> MRReversePusher<T> {
         let pusher = MRReversePusher<T>()
         self.portals[name] = pusher
+        return pusher
+    }
+    
+    func registerReverse<T: MRMappable>(name: String, type: T.Type) -> MRMappableReversePusher<T> {
+        let pusher = MRMappableReversePusher<T>()
+        self.mrMapperPortals[name] = pusher
         return pusher
     }
 }

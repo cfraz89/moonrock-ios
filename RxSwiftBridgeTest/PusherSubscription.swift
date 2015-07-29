@@ -11,10 +11,10 @@ import RxSwift
 
 class PusherSubscription : Disposable {
     typealias KeyType = Bag<Void>.KeyType
-    private var pusher: MRReversePusherProtocol?
+    private var pusher: MRSubscription?
     private var key: KeyType?
     
-    init(key: KeyType, pusher: MRReversePusherProtocol) {
+    init(key: KeyType, pusher: MRSubscription) {
         self.key = key
         self.pusher = pusher
         

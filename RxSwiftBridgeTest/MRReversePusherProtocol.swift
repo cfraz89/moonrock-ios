@@ -9,9 +9,7 @@
 import Foundation
 import RxSwift
 
-protocol MRReversePusherProtocol {
+protocol MRReversePusherProtocol: MRSubscription {
     func pushJSON(data: String)
-    func pushDictionary(dictionary: [String: AnyObject])
-    func pushRaw(object: AnyObject)
-    func removeSubscriber(key: Bag<Void>.KeyType)
+    func push(dictionary: [String: AnyObject])
 }

@@ -27,7 +27,7 @@ var MRHelper = (function () {
     };
     MRHelper.prototype.activatePortal = function (loadedName, subjectName, serializedInput) {
         var data = JSON.parse(serializedInput);
-        this.getSubject(loadedName, subjectName).onNext(data.data);
+        this.getSubject(loadedName, subjectName).onNext(data);
     };
     MRHelper.prototype.reversePortal = function (loadedName, subjectName) {
         this.getObservable(loadedName, subjectName).subscribe(function (data) {

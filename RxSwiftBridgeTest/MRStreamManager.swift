@@ -24,7 +24,7 @@ class MRStreamManager : NSObject, WKScriptMessageHandler {
         let body = message.body as! [String: AnyObject]
         let streamName = body["streamName"] as! String
         if let pusher = self.pushers[streamName] {
-            pusher.pushDictionary(body)
+            pusher.push(body)
         }
     }
     

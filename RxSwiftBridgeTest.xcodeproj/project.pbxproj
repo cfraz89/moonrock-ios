@@ -30,6 +30,11 @@
 		1BC5281B1B5720C7003B4AB7 /* MRStreamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC5281A1B5720C7003B4AB7 /* MRStreamManager.swift */; };
 		1BC5281D1B572144003B4AB7 /* MRReversePortalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC5281C1B572144003B4AB7 /* MRReversePortalManager.swift */; };
 		1BF6D4551B68450800A3AFEF /* MRValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF6D4541B68450800A3AFEF /* MRValue.swift */; };
+		1BF6D45B1B69122900A3AFEF /* MRExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF6D45A1B69122900A3AFEF /* MRExtensions.swift */; };
+		1BF6D45D1B69128000A3AFEF /* MRMappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF6D45C1B69128000A3AFEF /* MRMappable.swift */; };
+		1BF6D4611B69181200A3AFEF /* MRMappableReversePusher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF6D4601B69181200A3AFEF /* MRMappableReversePusher.swift */; };
+		1BF6D4631B69189700A3AFEF /* MRMappableReversePusherProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF6D4621B69189700A3AFEF /* MRMappableReversePusherProtocol.swift */; };
+		1BF6D4651B691A0F00A3AFEF /* MRSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF6D4641B691A0F00A3AFEF /* MRSubscription.swift */; };
 		5D3A51000601CD72F46487A3 /* Pods_RxSwiftBridgeTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77F2F6FD4683035CE1F26E52 /* Pods_RxSwiftBridgeTest.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -72,6 +77,11 @@
 		1BC5281A1B5720C7003B4AB7 /* MRStreamManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRStreamManager.swift; sourceTree = "<group>"; };
 		1BC5281C1B572144003B4AB7 /* MRReversePortalManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRReversePortalManager.swift; sourceTree = "<group>"; };
 		1BF6D4541B68450800A3AFEF /* MRValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRValue.swift; sourceTree = "<group>"; };
+		1BF6D45A1B69122900A3AFEF /* MRExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRExtensions.swift; sourceTree = "<group>"; };
+		1BF6D45C1B69128000A3AFEF /* MRMappable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRMappable.swift; sourceTree = "<group>"; };
+		1BF6D4601B69181200A3AFEF /* MRMappableReversePusher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRMappableReversePusher.swift; sourceTree = "<group>"; };
+		1BF6D4621B69189700A3AFEF /* MRMappableReversePusherProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRMappableReversePusherProtocol.swift; sourceTree = "<group>"; };
+		1BF6D4641B691A0F00A3AFEF /* MRSubscription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRSubscription.swift; sourceTree = "<group>"; };
 		77F2F6FD4683035CE1F26E52 /* Pods_RxSwiftBridgeTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxSwiftBridgeTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A23419D9648163756F7CCB9 /* Pods-RxSwiftBridgeTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwiftBridgeTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxSwiftBridgeTest/Pods-RxSwiftBridgeTest.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -171,6 +181,8 @@
 				1BC5281C1B572144003B4AB7 /* MRReversePortalManager.swift */,
 				1B88A6091B5BBE7900CD4047 /* MRHelper.swift */,
 				1BF6D4541B68450800A3AFEF /* MRValue.swift */,
+				1BF6D45A1B69122900A3AFEF /* MRExtensions.swift */,
+				1BF6D45C1B69128000A3AFEF /* MRMappable.swift */,
 			);
 			name = Bridge;
 			sourceTree = "<group>";
@@ -182,6 +194,9 @@
 				1B88A6111B5FC7E400CD4047 /* PusherSubscription.swift */,
 				1B88A60F1B5FC6E600CD4047 /* MRSingleShotReversePusher.swift */,
 				1B88A60B1B5BDDDA00CD4047 /* MRReversePusher.swift */,
+				1BF6D4601B69181200A3AFEF /* MRMappableReversePusher.swift */,
+				1BF6D4621B69189700A3AFEF /* MRMappableReversePusherProtocol.swift */,
+				1BF6D4641B691A0F00A3AFEF /* MRSubscription.swift */,
 			);
 			name = Pusher;
 			sourceTree = "<group>";
@@ -358,18 +373,23 @@
 				1B6898BC1B4B6EF20035EFC9 /* ViewController.swift in Sources */,
 				1B88A60A1B5BBE7900CD4047 /* MRHelper.swift in Sources */,
 				1B3379D31B4C390C00257BA5 /* PostList.swift in Sources */,
+				1BF6D4611B69181200A3AFEF /* MRMappableReversePusher.swift in Sources */,
+				1BF6D4651B691A0F00A3AFEF /* MRSubscription.swift in Sources */,
 				1B3379D11B4C38D600257BA5 /* Post.swift in Sources */,
 				1B88A60C1B5BDDDA00CD4047 /* MRReversePusher.swift in Sources */,
 				1BF6D4551B68450800A3AFEF /* MRValue.swift in Sources */,
 				1B3379CD1B4C2CDE00257BA5 /* TestModel.swift in Sources */,
 				1BC5281D1B572144003B4AB7 /* MRReversePortalManager.swift in Sources */,
+				1BF6D45B1B69122900A3AFEF /* MRExtensions.swift in Sources */,
 				1BC528191B4CC825003B4AB7 /* MRNavigationDelegate.swift in Sources */,
 				1BC5281B1B5720C7003B4AB7 /* MRStreamManager.swift in Sources */,
 				1B88A6101B5FC6E600CD4047 /* MRSingleShotReversePusher.swift in Sources */,
 				1B3379DB1B4C3DA400257BA5 /* PostsDataSource.swift in Sources */,
 				1BC528171B4CC3AB003B4AB7 /* MoonRockModule.swift in Sources */,
 				1B6898DB1B4B6FDF0035EFC9 /* MoonRock.swift in Sources */,
+				1BF6D4631B69189700A3AFEF /* MRMappableReversePusherProtocol.swift in Sources */,
 				1B88A60E1B5C658300CD4047 /* MRReversePusherProtocol.swift in Sources */,
+				1BF6D45D1B69128000A3AFEF /* MRMappable.swift in Sources */,
 				1B6898BA1B4B6EF20035EFC9 /* AppDelegate.swift in Sources */,
 				1B88A6121B5FC7E400CD4047 /* PusherSubscription.swift in Sources */,
 				1B3379D91B4C3C8600257BA5 /* PostCell.swift in Sources */,

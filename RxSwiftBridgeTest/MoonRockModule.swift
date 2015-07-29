@@ -50,17 +50,34 @@ class MoonRockModule {
         return resultObservable
     }
     
-    func portal<T>(observable: Observable<T>, name: String) {
+    func portal<T:Mappable>(observable: Observable<T>, name: String) {
         mrhelper.run("portal", args: self.loadedName, name)
         observable >- subscribeNext { data in
-            var portalValue = MRValue<T>(data: data)
-            if let jsonString = Mapper().toJSONString(portalValue, prettyPrint: false) {
+            if let jsonString = Mapper().toJSONString(data, prettyPrint: false) {
+                self.mrhelper.run("activatePortal", args: self.loadedName, name, jsonString)
+            }
+        }
+    }
+    
+    
+    func portal<T:MRMappable>(observable: Observable<T>, name: String) {
+        mrhelper.run("portal", args: self.loadedName, name)
+        observable >- subscribeNext { data in
+            if let jsonString = data.toJson() {
                 self.mrhelper.run("activatePortal", args: self.loadedName, name, jsonString)
             }
         }
     }
     
     func reversePortal<T: Mappable>(name: String, type: T.Type) -> Observable<T> {
+        let pusher = self.moonrock.reversePortalManager.registerReverse(name, type: type)
+        mrhelper.run("reversePortal", args: self.loadedName, name)
+        return create { observer in
+            return pusher.addSubscriber(observer)
+        }
+    }
+    
+    func reversePortal<T: MRMappable>(name: String, type: T.Type) -> Observable<T> {
         let pusher = self.moonrock.reversePortalManager.registerReverse(name, type: type)
         mrhelper.run("reversePortal", args: self.loadedName, name)
         return create { observer in

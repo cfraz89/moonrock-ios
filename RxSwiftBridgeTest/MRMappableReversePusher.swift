@@ -10,16 +10,13 @@ import Foundation
 import RxSwift
 import ObjectMapper
 
-class MRReversePusher<T: Mappable> : MRReversePusherProtocol {
+class MRMappableReversePusher<T: MRMappable> : MRMappableReversePusherProtocol {
     typealias KeyType = Bag<Void>.KeyType
     
     var subscribers: Bag<ObserverOf<T>>
     
-    let mapper: Mapper<T>
-
     init() {
         subscribers = Bag<ObserverOf<T>>()
-        mapper = Mapper<T>()
     }
     
     func addSubscriber(observer: ObserverOf<T>) -> Disposable {
@@ -31,19 +28,13 @@ class MRReversePusher<T: Mappable> : MRReversePusherProtocol {
         subscribers.removeKey(key)
     }
     
-    func pushJSON (json: String) {
-        if let object = self.mapper.map(json) {
-            self.pushMapped(object)
+    func push(object: AnyObject) {
+        if let realObject = object as? T {
+            self.pushUnwrapped(realObject)
         }
     }
     
-    func push(dict: [String: AnyObject]) {
-        if let object = self.mapper.map(dict) {
-            self.pushMapped(object)
-        }
-    }
-    
-    func pushMapped(data: T) {
+    func pushUnwrapped(data: T) {
         for subscriber in subscribers.all {
             sendNext(subscriber, data)
         }
@@ -51,7 +42,7 @@ class MRReversePusher<T: Mappable> : MRReversePusherProtocol {
     
     func complete() {
         for subscriber in subscribers.all {
-           sendCompleted(subscriber)
+            sendCompleted(subscriber)
         }
     }
     

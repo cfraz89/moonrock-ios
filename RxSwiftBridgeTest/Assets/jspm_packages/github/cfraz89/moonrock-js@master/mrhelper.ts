@@ -39,7 +39,7 @@ export class MRHelper {
 
   activatePortal(loadedName: string, subjectName: string, serializedInput: string) {
     var data = JSON.parse(serializedInput)
-    this.getSubject(loadedName, subjectName).onNext(data.data)
+    this.getSubject(loadedName, subjectName).onNext(data)
   }
 
   reversePortal(loadedName: string, subjectName: string) {
