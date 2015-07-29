@@ -21,11 +21,10 @@ class MRStreamManager : NSObject, WKScriptMessageHandler {
     }
     
     func userContentController(userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
-        let body = message.body as! NSDictionary
-        let data = body["data"]
+        let body = message.body as! [String: AnyObject]
         let streamName = body["streamName"] as! String
         if let pusher = self.pushers[streamName] {
-            pusher.push(data!)
+            pusher.pushDictionary(body)
         }
     }
     

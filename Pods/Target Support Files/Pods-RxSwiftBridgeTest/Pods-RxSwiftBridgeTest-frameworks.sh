@@ -50,12 +50,14 @@ code_sign() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'EVReflection.framework'
   install_framework 'OCMapper.framework'
+  install_framework 'ObjectMapper.framework'
   install_framework 'RxCocoa.framework'
   install_framework 'RxSwift.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'EVReflection.framework'
   install_framework 'OCMapper.framework'
+  install_framework 'ObjectMapper.framework'
   install_framework 'RxCocoa.framework'
   install_framework 'RxSwift.framework'
 fi

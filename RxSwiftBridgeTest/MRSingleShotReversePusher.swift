@@ -8,9 +8,9 @@
 
 import Foundation
 import RxSwift
-import EVReflection
+import ObjectMapper
 
-class MRSingleShotReversePusher<T: NSObject> : MRReversePusher<T> {
+class MRSingleShotReversePusher<T: Mappable> : MRReversePusher<T> {
     var data: T?
     
     override init() {
@@ -27,8 +27,8 @@ class MRSingleShotReversePusher<T: NSObject> : MRReversePusher<T> {
         return PusherSubscription(key: key, pusher: self)
     }
     
-    override func push (data: AnyObject) {
-        super.push(data)
+    override func pushJSON(json: String) {
+        super.pushJSON(json)
         super.complete()
     }
 }

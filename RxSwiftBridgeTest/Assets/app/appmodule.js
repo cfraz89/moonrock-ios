@@ -12,7 +12,9 @@ var appModule = (function () {
         var add2Num = this.add2Text.map(toNumber);
         var sumStream = add1Num.combineLatest(add2Num, function (num1, num2) { return (num1 + num2).toString(); });
         this.sum = this.addPressed.withLatestFrom(sumStream, function (ev, num) { return num; });
-        this.posts = Rx.Observable.fromPromise(axios.get('http://jsonplaceholder.typicode.com/posts'));
+        this.posts = Rx.Observable.fromPromise(axios.get('http://jsonplaceholder.typicode.com/posts')).map(function (response) {
+            return { data: response.data };
+        });
     };
     appModule.prototype.portalsLinked = function () { };
     appModule.prototype.destroy = function () { };

@@ -74,7 +74,7 @@ class MoonRock {
         //var url = NSBundle.mainBundle().URLForResource("Assets/bridge", withExtension: "html");
         var url = NSURL(string: "\(baseUrl)/\(pageUrl)")
         
-        var pusher = MRSingleShotReversePusher<NSNumber>()
+        var pusher = MRSingleShotReversePusher<MRValue<Int>>()
         streamManager.openStream("moonrock-configured", pusher: pusher)
             >- subscribeNext { _ in
                 sendNext(self.readySubject, self)

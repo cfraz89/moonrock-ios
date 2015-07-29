@@ -29,6 +29,7 @@
 		1BC528191B4CC825003B4AB7 /* MRNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC528181B4CC825003B4AB7 /* MRNavigationDelegate.swift */; };
 		1BC5281B1B5720C7003B4AB7 /* MRStreamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC5281A1B5720C7003B4AB7 /* MRStreamManager.swift */; };
 		1BC5281D1B572144003B4AB7 /* MRReversePortalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC5281C1B572144003B4AB7 /* MRReversePortalManager.swift */; };
+		1BF6D4551B68450800A3AFEF /* MRValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF6D4541B68450800A3AFEF /* MRValue.swift */; };
 		5D3A51000601CD72F46487A3 /* Pods_RxSwiftBridgeTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77F2F6FD4683035CE1F26E52 /* Pods_RxSwiftBridgeTest.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -70,6 +71,7 @@
 		1BC528181B4CC825003B4AB7 /* MRNavigationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRNavigationDelegate.swift; sourceTree = "<group>"; };
 		1BC5281A1B5720C7003B4AB7 /* MRStreamManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRStreamManager.swift; sourceTree = "<group>"; };
 		1BC5281C1B572144003B4AB7 /* MRReversePortalManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRReversePortalManager.swift; sourceTree = "<group>"; };
+		1BF6D4541B68450800A3AFEF /* MRValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRValue.swift; sourceTree = "<group>"; };
 		77F2F6FD4683035CE1F26E52 /* Pods_RxSwiftBridgeTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxSwiftBridgeTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A23419D9648163756F7CCB9 /* Pods-RxSwiftBridgeTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwiftBridgeTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxSwiftBridgeTest/Pods-RxSwiftBridgeTest.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -168,6 +170,7 @@
 				1BC5281A1B5720C7003B4AB7 /* MRStreamManager.swift */,
 				1BC5281C1B572144003B4AB7 /* MRReversePortalManager.swift */,
 				1B88A6091B5BBE7900CD4047 /* MRHelper.swift */,
+				1BF6D4541B68450800A3AFEF /* MRValue.swift */,
 			);
 			name = Bridge;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 				1B3379D31B4C390C00257BA5 /* PostList.swift in Sources */,
 				1B3379D11B4C38D600257BA5 /* Post.swift in Sources */,
 				1B88A60C1B5BDDDA00CD4047 /* MRReversePusher.swift in Sources */,
+				1BF6D4551B68450800A3AFEF /* MRValue.swift in Sources */,
 				1B3379CD1B4C2CDE00257BA5 /* TestModel.swift in Sources */,
 				1BC5281D1B572144003B4AB7 /* MRReversePortalManager.swift in Sources */,
 				1BC528191B4CC825003B4AB7 /* MRNavigationDelegate.swift in Sources */,

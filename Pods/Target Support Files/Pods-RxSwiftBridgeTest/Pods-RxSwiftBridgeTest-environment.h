@@ -18,6 +18,12 @@
 #define COCOAPODS_VERSION_MINOR_OCMapper 1
 #define COCOAPODS_VERSION_PATCH_OCMapper 0
 
+// ObjectMapper
+#define COCOAPODS_POD_AVAILABLE_ObjectMapper
+#define COCOAPODS_VERSION_MAJOR_ObjectMapper 0
+#define COCOAPODS_VERSION_MINOR_ObjectMapper 14
+#define COCOAPODS_VERSION_PATCH_ObjectMapper 0
+
 // RxCocoa
 #define COCOAPODS_POD_AVAILABLE_RxCocoa
 #define COCOAPODS_VERSION_MAJOR_RxCocoa 1

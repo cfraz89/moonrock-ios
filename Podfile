@@ -7,6 +7,7 @@ target 'RxSwiftBridgeTest' do
     pod 'RxCocoa', '~> 1.7'
     pod "EVReflection"
     pod "OCMapper"
+    pod "ObjectMapper"
 end
 
 target 'RxSwiftBridgeTestTests' do

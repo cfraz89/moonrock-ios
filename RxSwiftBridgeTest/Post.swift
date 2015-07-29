@@ -7,9 +7,18 @@
 //
 
 import Foundation
-import EVReflection
+import ObjectMapper
 
-class Post: EVObject {
-    var title = ""
-    var body = ""
+class Post: Mappable {
+    var title: String?
+    var body: String?
+    
+    static func newInstance() -> Mappable {
+        return Post()
+    }
+    
+    func mapping(map: Map) {
+        title <- map["title"]
+        body  <- map["body"]
+    }
 }

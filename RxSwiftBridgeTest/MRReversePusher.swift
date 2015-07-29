@@ -8,15 +8,18 @@
 
 import Foundation
 import RxSwift
-import EVReflection
+import ObjectMapper
 
-class MRReversePusher<T: NSObject> : MRReversePusherProtocol {
+class MRReversePusher<T: Mappable> : MRReversePusherProtocol {
     typealias KeyType = Bag<Void>.KeyType
     
     var subscribers: Bag<ObserverOf<T>>
+    
+    let mapper: Mapper<T>
 
     init() {
         subscribers = Bag<ObserverOf<T>>()
+        mapper = Mapper<T>()
     }
     
     func addSubscriber(observer: ObserverOf<T>) -> Disposable {
@@ -28,14 +31,15 @@ class MRReversePusher<T: NSObject> : MRReversePusherProtocol {
         subscribers.removeKey(key)
     }
     
-    func push (data: AnyObject) {
-        if let dict = data as? NSDictionary {
-            var object = T()
-            object.setValuesForKeysWithDictionary(dict as [NSObject : AnyObject])
+    func pushJSON (json: String) {
+        if let object = self.mapper.map(json) {
             self.push(object)
         }
-        else {
-            self.push(data as! T)
+    }
+    
+    func pushDictionary(dict: [String: AnyObject]) {
+        if let object = self.mapper.map(dict) {
+            self.push(object)
         }
     }
     
