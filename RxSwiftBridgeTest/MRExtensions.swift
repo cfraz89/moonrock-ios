@@ -11,11 +11,11 @@ import ObjectMapper
 
 extension String: MRMappable {
     func toJson() -> String? {
-        return self
+        return (self=="") ? "" : "\"\(self)\""
     }
     
     func fromJson(json: String) -> String? {
-        return json
+        return json.substringWithRange(Range<String.Index>(start: advance(json.startIndex, 1), end: advance(json.endIndex, -1)))
     }
 }
 

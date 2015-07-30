@@ -30,7 +30,7 @@ class MRReversePortalManager : NSObject, WKScriptMessageHandler {
             self.portals[portalName]?.push(objectData)
         } else {
             var data = body["data"]
-            //self.mrMapperPortals[portalName]?.push(data!)
+            self.mrMapperPortals[portalName]?.push(data!)
         }
         
         
