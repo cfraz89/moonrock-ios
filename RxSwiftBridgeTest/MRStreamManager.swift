@@ -9,7 +9,6 @@
 import Foundation
 import WebKit
 import RxSwift
-import EVReflection
 
 class MRStreamManager : NSObject, WKScriptMessageHandler {
     var pushers: [String: MRReversePusherProtocol]

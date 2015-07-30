@@ -29,7 +29,7 @@ class ViewController: UIViewController {
     var posts: Observable<PostList>?
 
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         self.moonRock = MoonRock().prepare()
         self.postsDataSource = PostsDataSource(posts:[])
         super.init(coder: aDecoder)

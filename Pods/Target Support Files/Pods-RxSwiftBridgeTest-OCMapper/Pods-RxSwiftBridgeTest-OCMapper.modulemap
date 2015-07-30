@@ -1,6 +1,0 @@
-framework module OCMapper {
-  umbrella header "Pods-RxSwiftBridgeTest-OCMapper-umbrella.h"
-
-  export *
-  module * { export * }
-}

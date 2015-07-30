@@ -18,15 +18,15 @@ RxSwift
 ├-README.md
 ├-RxSwift         - platform agnostic core
 ├-RxCocoa         - extensions for UI, NSURLSession, KVO ...
-├-RxExample       - example apps: UI bindings example, Wikipedia search example ...
+├-RxBlocking      - set of blocking operators for unit testing
+├-RxExample       - example apps: taste of Rx
 └-Rx.xcworkspace  - workspace that contains all of the projects hooked up
-```		
+```
 
 Hang out with us on [rxswift.slack.com](http://slack.rxswift.org) <img src="http://slack.rxswift.org/badge.svg">
 
 1. [Introduction](#introduction)
-1. [RxSwift supported operators](#rxswift-supported-operators)
-1. [RxCocoa extensions](#rxcocoa-extensions)
+1. [API - RxSwift operators / RxCocoa extensions](Documentation/API.md)
 1. [Build / Install / Run](#build--install--run)
 1. [Feature comparison with other frameworks](#feature-comparison-with-other-frameworks)
 1. [What problem does Rx solve?](#what-problem-does-rx-solve)
@@ -37,11 +37,9 @@ Hang out with us on [rxswift.slack.com](http://slack.rxswift.org) <img src="http
 1. [Error Handling](#error-handling)
 1. [Naming conventions and best practices](#naming-conventions-and-best-practices)
 1. [Pipe operator >- vs |> vs ...](#pipe-operator---vs--vs-)
-1. [Roadmap](/kzaher/RxSwift/wiki/roadmap)
+1. [Roadmap](https://github.com/kzaher/RxSwift/wiki/roadmap)
 1. [Peculiarities](#peculiarities)
 1. [References](#references)
-
-Using RxSwift in some cool project? [Let us know](mailto:krunoslav.zaher@gmail.com?subject=[RxSwift] Doing something cool)
 
 ## Introduction
 
@@ -58,9 +56,9 @@ git diff | grep bug | less          #  linux pipes - programs communicate by sen
 would become if written in RxSwift
 
 ```swift
-gitDiff() >- grep("bug") >- less    // rx pipe `>-` operator - rx units communicate by 
+gitDiff() >- grep("bug") >- less    // rx pipe `>-` operator - rx units communicate by
                                     // sending sequences of swift objects
-                                    // unfortunately `|` is reserved in swift 
+                                    // unfortunately `|` is reserved in swift
                                     // for logical or
 ```
 
@@ -85,10 +83,10 @@ Here is an example of calculated variable:
 let a = Variable(1)
 let b = Variable(2)
 
-combineLatest(a, b) { $0 + $1 } 
-    >- filter { $0 >= 0 } 
+combineLatest(a, b) { $0 + $1 }
+    >- filter { $0 >= 0 }
     >- map { "\($0) is positive" }
-    >- subscribeNext { println($0) }    // prints: 3 is positive
+    >- subscribeNext { print($0) }    // prints: 3 is positive
 
 a.next(4)                               // prints: 6 is positive
 
@@ -108,10 +106,10 @@ let a = Variable(1)
 let b = Variable(2)
 
 // immediately prints: 3 is positive
-combineLatest(a, b) { $0 + $1 } 
-    |> filter { $0 >= 0 } 
+combineLatest(a, b) { $0 + $1 }
+    |> filter { $0 >= 0 }
     |> map { "\($0) is positive" }
-    |> subscribeNext { println($0) }
+    |> subscribeNext { print($0) }
 
 // ...
 ```
@@ -131,7 +129,7 @@ let subscription/*: Disposable */ = primeTextField.rx_text      // type is Obser
             >- concat                                           // type is Observable<Prime>
             >- map { "number \($0.n) is prime? \($0.isPrime)" } // type is Observable<String>
             >- resultLabel.rx_subscribeTextTo                   // return Disposable that can be used to unbind everything
-        
+
 // This will set resultLabel.text to "number 43 is prime? true" after
 // server call completes.
 primeTextField.text = "43"
@@ -169,7 +167,7 @@ self.usernameOutlet.rx_text >- map { username in
     // Every user interface probably shows some state while async operation
     // is executing.
     // Let's assume that we want to show "Checking availability" while waiting for result.
-    // valid parameter can be 
+    // valid parameter can be
     //  * true  - is valid
     //  * false - not valid
     //  * nil   - validation pending
@@ -190,7 +188,7 @@ self.usernameOutlet.rx_text >- map { username in
 }
 // Since we now have `Observable<Observable<ValidationResult>>`
 // we somehow need to return to normal `Observable` world.
-// We could use `concat` operator from second example, but we really 
+// We could use `concat` operator from second example, but we really
 // want to cancel pending asynchronous operation if new username is
 // provided.
 // That's what `switchLatest` does
@@ -204,333 +202,14 @@ self.usernameOutlet.rx_text >- map { username in
         errorLabel.textColor = validationColor(valid)
         errorLabel.text = valid.message
     }
-// Why would we do it manually, that's tedious, 
+// Why would we do it manually, that's tedious,
 // let's dispose everything automagically on view controller dealloc.
     >- disposeBag.addDisposable
 ```
 
-Can't get any simpler than this. There are more examples in the repository, so feel free to check them out. 
+Can't get any simpler than this. There are more examples in the repository, so feel free to check them out.
 
 They include examples on how to use it in the context of MVVM pattern or without it.
-
-## RxSwift supported operators
-
-In some cases there are multiple aliases for the same operator, because on different platforms / implementations, the same operation is sometimes called differently. Sometimes this is because historical reasons, sometimes because of reserved language keywords.
-
-When lacking a strong community consensus, RxSwift will usually include multiple aliases.
-
-Operators are stateless by default.
-
-#### Creating Observables
-
- * [`asObservable`](http://reactivex.io/documentation/operators/from.html)
- * [`create`](http://reactivex.io/documentation/operators/create.html)
- * [`defer`](http://reactivex.io/documentation/operators/defer.html)
- * [`empty`](http://reactivex.io/documentation/operators/empty-never-throw.html)
- * [`failWith`](http://reactivex.io/documentation/operators/empty-never-throw.html)
- * [`from` (array)](http://reactivex.io/documentation/operators/from.html)
- * [`interval`](http://reactivex.io/documentation/operators/interval.html)
- * [`never`](http://reactivex.io/documentation/operators/empty-never-throw.html)
- * [`returnElement` / `just`](http://reactivex.io/documentation/operators/just.html)
- * [`returnElements`](http://reactivex.io/documentation/operators/from.html)
- * [`timer`](http://reactivex.io/documentation/operators/timer.html)
-
-#### Transforming Observables
-  * [`flatMap`](http://reactivex.io/documentation/operators/flatmap.html)
-  * [`map` / `select`](http://reactivex.io/documentation/operators/map.html)
-  * [`scan`](http://reactivex.io/documentation/operators/scan.html)
-
-#### Filtering Observables
-  * [`debounce` / `throttle`](http://reactivex.io/documentation/operators/debounce.html)
-  * [`distinctUntilChanged`](http://reactivex.io/documentation/operators/distinct.html)
-  * [`filter` / `where`](http://reactivex.io/documentation/operators/filter.html)
-  * [`sample`](http://reactivex.io/documentation/operators/sample.html)
-  * [`skip`](http://reactivex.io/documentation/operators/skip.html)
-  * [`take`](http://reactivex.io/documentation/operators/take.html)
-
-#### Combining Observables
-
-  * [`merge`](http://reactivex.io/documentation/operators/merge.html)
-  * [`startWith`](http://reactivex.io/documentation/operators/startwith.html)
-  * [`switchLatest`](http://reactivex.io/documentation/operators/switch.html)
-  * [`combineLatest`](http://reactivex.io/documentation/operators/combinelatest.html)
-  * [`zip`](http://reactivex.io/documentation/operators/zip.html)
-
-#### Error Handling Operators
-
- * [`catch`](http://reactivex.io/documentation/operators/catch.html)
- * [`retry`](http://reactivex.io/documentation/operators/retry.html)
-
-#### Observable Utility Operators
-
-  * [`delaySubscription`](http://reactivex.io/documentation/operators/delay.html)
-  * [`do` / `doOnNext`](http://reactivex.io/documentation/operators/do.html)
-  * [`observeOn` / `observeSingleOn`](http://reactivex.io/documentation/operators/observeon.html)
-  * [`subscribe`](http://reactivex.io/documentation/operators/subscribe.html)
-  * [`subscribeOn`](http://reactivex.io/documentation/operators/subscribeon.html)
-  * debug
-
-#### Conditional and Boolean Operators
-  * [`amb`](http://reactivex.io/documentation/operators/amb.html)
-  * [`takeUntil`](http://reactivex.io/documentation/operators/takeuntil.html)
-  * [`takeWhile`](http://reactivex.io/documentation/operators/takewhile.html)
-
-#### Mathematical and Aggregate Operators
-
-  * [`concat`](http://reactivex.io/documentation/operators/concat.html)
-  * [`reduce` / `aggregate`](http://reactivex.io/documentation/operators/reduce.html)
-
-#### Connectable Observable Operators
-
-  * [`multicast`](http://reactivex.io/documentation/operators/publish.html)
-  * [`publish`](http://reactivex.io/documentation/operators/publish.html)
-  * [`refCount`](http://reactivex.io/documentation/operators/refcount.html)
-  * [`replay`](http://reactivex.io/documentation/operators/replay.html)
-  * variable / sharedWithCachedLastResult
-
-Creating new operators is also pretty straightforward. 
-
-## RxCocoa extensions
-
-**iOS / OSX**
-
-```swift
-extension NSObject {
-
-    public func rx_observe<Element>(path: String) -> Observable<Element?> { }
-
-    public func rx_observe<Element>(path: String, options: NSKeyValueObservingOptions) -> Observable<Element?> { }
-
-}
-```
-
-```swift
-extension NSURLSession {
-
-    public func rx_response(request: NSURLRequest) -> Observable<(NSData!, NSURLResponse!)> {}
-
-    public func rx_data(request: NSURLRequest) -> Observable<NSData> {}
-
-    public func rx_JSON(request: NSURLRequest) -> Observable<AnyObject!> {}
-
-    public func rx_JSON(URL: NSURL) -> Observable<AnyObject!> {}
-
-}
-```
-
-```swift
-extension NSNotificationCenter {
-
-    public func rx_notification(name: String, object: AnyObject?) -> Observable<NSNotification> {}
-
-}
-```
-
-```swift
-class DelegateProxy {
-    
-    public func observe(selector: Selector) -> Observable<[AnyObject]> {}
-
-}
-```
-
-**iOS**
-
-```swift
-
-extension UIControl {
-
-    public func rx_controlEvents(controlEvents: UIControlEvents) -> Observable<Void> { }
-
-    public func rx_subscribeEnabledTo(source: Observable<Bool>) -> Disposable {}
-
-}
-
-```
-
-```swift
-extension UIButton {
-
-    public var rx_tap: Observable<Void> {}
-
-}
-```
-
-```swift
-extension UITextField {
-
-    public var rx_text: Observable<String> {}
-
-}
-```
-
-```swift
-extension UISearchBar {
-
-    public var rx_delegate: DelegateProxy {}
-
-    public var rx_searchText: Observable<String> {}
-
-}
-```
-
-```swift
-extension UILabel {
-
-    public func rx_subscribeTextTo(source: Observable<String>) -> Disposable {}
-
-}
-```
-
-```swift
-extension UIDatePicker {
-
-    public var rx_date: Observable<NSDate> {}
-
-}
-```
-
-```swift
-extension UIImageView {
-
-    public func rx_subscribeImageTo(source: Observable<UIImage?>) -> Disposable {}
-
-    public func rx_subscribeImageTo
-        (animated: Bool)
-        (source: Observable<UIImage?>) 
-            -> Disposable {}
-
-}
-```
-
-```swift
-extension UIScrollView {
-
-    public var rx_delegate: DelegateProxy {}
-
-    public func rx_setDelegate(delegate: UIScrollViewDelegate) {}
-    
-    public var rx_contentOffset: Observable<CGPoint> {}
-
-}
-```
-
-```swift
-extension UIBarButtonItem {
-
-    public var rx_tap: Observable<Void> {}
-
-}
-```
-
-```swift
-extension UISlider {
-
-    public var rx_value: Observable<Float> {}
-
-}
-```
-
-```swift
-extension UITableView {
-    
-    public var rx_dataSource: DelegateProxy {}
-
-    public func rx_setDataSource(dataSource: UITableViewDataSource) -> Disposable {}
-
-    public func rx_subscribeWithReactiveDataSource<DataSource: protocol<RxTableViewDataSourceType, UITableViewDataSource>>(dataSource: DataSource)
-        -> Observable<DataSource.Element> -> Disposable {}
-
-    public func rx_subscribeItemsTo<Item>(cellFactory: (UITableView, Int, Item) -> UITableViewCell)
-        -> Observable<[Item]> -> Disposable {}
-
-    public func rx_subscribeItemsToWithCellIdentifier<Item, Cell: UITableViewCell>(cellIdentifier: String, configureCell: (NSIndexPath, Item, Cell) -> Void)
-        -> Observable<[Item]> -> Disposable {}
-
-    public var rx_itemSelected: Observable<NSIndexPath> {}
-
-    public var rx_itemInserted: Observable<NSIndexPath> {}
-
-    public var rx_itemDeleted: Observable<NSIndexPath> {}
-
-    public var rx_itemMoved: Observable<ItemMovedEvent> {}
-
-    // This method only works in case one of the `rx_subscribeItemsTo` methods was used.
-    public func rx_modelSelected<T>() -> Observable<T> {}
-
-}
-```
-
-```swift
-extension UICollectionView {
-    
-    public var rx_dataSource: DelegateProxy {}
-
-    public func rx_setDataSource(dataSource: UICollectionViewDataSource) -> Disposable {}
-    
-    public func rx_subscribeWithReactiveDataSource<DataSource: protocol<RxCollectionViewDataSourceType, UICollectionViewDataSource>>(dataSource: DataSource)
-        -> Observable<DataSource.Element> -> Disposable {}
-
-    public func rx_subscribeItemsTo<Item>(cellFactory: (UICollectionView, Int, Item) -> UICollectionViewCell)
-        -> Observable<[Item]> -> Disposable {}
-
-    public func rx_subscribeItemsToWithCellIdentifier<Item, Cell: UICollectionViewCell>(cellIdentifier: String, configureCell: (Int, Item, Cell) -> Void)
-        -> Observable<[Item]> -> Disposable {}
-
-    public var rx_itemSelected: Observable<NSIndexPath> {}
-
-    // This method only works in case one of the `rx_subscribeItemsTo` methods was used.
-    public func rx_modelSelected<T>() -> Observable<T> {}
-}
-```
-**OSX**
-
-```swift
-extension NSControl {
-
-    public var rx_controlEvents: Observable<()> {}
-
-}
-```
-
-```swift
-
-extension NSSlider {
-
-    public var rx_value: Observable<Double> {}
-
-}
-```
-
-```swift
-extension NSButton {
-
-    public var rx_tap: Observable<Void> {}
-
-}
-```
-
-```swift
-extension NSImageView {
-
-    public func rx_subscribeImageTo(source: Observable<NSImage?>) -> Disposable {}
-    
-    public func rx_subscribeImageTo
-        (animated: Bool)
-        (source: Observable<NSImage?>) -> Disposable {}
-}
-```
-
-```swift
-extension NSTextField {
-
-    public var rx_delegate: DelegateProxy {}
-    
-    public var rx_text: Observable<String> {}
-
-    public func rx_subscribeTextTo(source: Observable<String>) -> Disposable {}
-} 
-```
 
 ## Build / Install / Run
 
@@ -538,8 +217,11 @@ Rx doesn't contain any external dependencies.
 
 These are currently supported options:
 
-* Open Rx.xcworkspace, choose `RxExample` and hit run. This method will build everything and run sample app
-* [CocoaPods](https://guides.cocoapods.org/using/using-cocoapods.html)
+### Manual
+
+Open Rx.xcworkspace, choose `RxExample` and hit run. This method will build everything and run sample app
+
+### [CocoaPods](https://guides.cocoapods.org/using/using-cocoapods.html)
 
 ```
 # Podfile
@@ -553,6 +235,37 @@ type in `Podfile` directory
 
 ```
 $ pod install
+```
+
+### [Carthage](https://github.com/Carthage/Carthage)
+
+It's little tricky, but possible. Carthage still has troubles resolving multiple targets inside same repository (https://github.com/Carthage/Carthage/issues/395).
+
+This is the workaround:
+
+```
+git "git@github.com:kzaher/RxSwift.git" "latest-carthage/rxswift"
+git "git@github.com:kzaher/RxSwift.git" "latest-carthage/rxcocoa"
+```
+
+Unfortunatelly, you can update only one target at a time beecause Carthage doesn't know how to resolve them properly. You'll probably need to do something like:
+
+```
+git "git@github.com:kzaher/RxSwift.git" "latest-carthage/rxswift"
+#git "git@github.com:kzaher/RxSwift.git" "latest-carthage/rxcocoa"
+```
+
+```bash
+carthage update
+```
+
+```
+#git "git@github.com:kzaher/RxSwift.git" "latest-carthage/rxswift"
+git "git@github.com:kzaher/RxSwift.git" "latest-carthage/rxcocoa"
+```
+
+```bash
+carthage update
 ```
 
 ## Feature comparison with other frameworks
@@ -717,7 +430,7 @@ There are two basic types of observables. In Rx both are represented by `Observa
 
 Error handling is pretty straightforward. If one sequence terminates with error, then all of the dependent sequences will terminate with error. It's usual short circuit logic.
 
-Unfortunately Swift doesn't have a concept of exceptions or some kind of built in error monad so this project introduces `RxResult` enum. 
+Unfortunately Swift doesn't have a concept of exceptions or some kind of built in error monad so this project introduces `RxResult` enum.
 It is Swift port of Scala [`Try`](http://www.scala-lang.org/api/2.10.2/index.html#scala.util.Try) type. It is also similar to Haskell [`Either`](https://hackage.haskell.org/package/category-extras-0.52.0/docs/Control-Monad-Either.html) monad.
 
 ```
@@ -736,7 +449,7 @@ result1.flatMap { okValue in        // success handling block
 }.recoverWith { error in            // error handling block
     //  executed on error
     return ?
-} 
+}
 ```
 
 ## Naming conventions and best practices
@@ -765,7 +478,7 @@ public func map<E, R>
 
 Returning an error from a selector will cause entire graph of dependent sequence transformers to "die" and fail with error. Dying implies that it will release all of its resources and never produce another sequence value. This is usually not an obvious effect.
 
-If there is some `UITextField` bound to a observable sequence that fails with error or completes, screen won't be updated ever again. 
+If there is some `UITextField` bound to a observable sequence that fails with error or completes, screen won't be updated ever again.
 
 To make those situations more obvious, RxCocoa debug build will throw an exception in case some sequence that is bound to UI control terminates with an error.
 
@@ -789,14 +502,14 @@ func >- <In, Out>(lhs: In, rhs: In -> Out) -> Out {
 a >- b >- c is equivalent to c(b(a))
 ```
 
-All of the Rx public interfaces don't depend at all on the `>-` operator. 
+All of the Rx public interfaces don't depend at all on the `>-` operator.
 
-It was actually introduced quite late and you can use Rx operators (map, filter ...) without it. 
+It was actually introduced quite late and you can use Rx operators (map, filter ...) without it.
 
 This is how Rx code would look like without `>-` operator
 
 ```
-subscribeNext({ println($0) })(map({ "\($0) is positive" })(filter({ $0 >= 0 })(a)))
+subscribeNext({ print($0) })(map({ "\($0) is positive" })(filter({ $0 >= 0 })(a)))
 ```
 
 but it's highly unlikely that anybody would want to code like this, even though the code is technically correct, and will produce wanted results.
@@ -811,7 +524,7 @@ public func |> <In, Out>(source: In, @noescape transform: In -> Out) -> Out {
 }
 ```
 
-or 
+or
 
 ```
 infix operator ~> { associativity left precedence 91 }
@@ -827,20 +540,20 @@ and you can use them instead of `>-` operator.
 let a /*: Observable<Int>*/ = Variable(1)
 let b /*: Observable<Int>*/ = Variable(2)
 
-combineLatest(a, b) { $0 + $1 } 
-    |> filter { $0 >= 0 } 
+combineLatest(a, b) { $0 + $1 }
+    |> filter { $0 >= 0 }
     |> map { "\($0) is positive" }
-    |> subscribeNext { println($0) }
+    |> subscribeNext { print($0) }
 ```
 
 ```swift
 let a /*: Observable<Int>*/ = Variable(1)
 let b /*: Observable<Int>*/ = Variable(2)
 
-combineLatest(a, b) { $0 + $1 } 
-    ~> filter { $0 >= 0 } 
+combineLatest(a, b) { $0 + $1 }
+    ~> filter { $0 >= 0 }
     ~> map { "\($0) is positive" }
-    ~> subscribeNext { println($0) }
+    ~> subscribeNext { print($0) }
 ```
 
 So why was `>-` chosen in the end? Well, it was a difficult decision.
@@ -876,7 +589,7 @@ I have experimented for a week with different operators and in the end these are
 ## Peculiarities
 
 * Swift support for generic enums is limited. That's why there is the `Box` hack in `Result` and `Event` enums
-``` 
+```
 unimplemented IR generation feature non-fixed multi-payload enum layout
 ```
 * Swift compiler had troubles with curried functions in release mode
@@ -891,7 +604,7 @@ public func map<E, R>  // this is ok
     }
 }
 
-public func map<E, R>           // this will cause crashes in release version 
+public func map<E, R>           // this will cause crashes in release version
     (selector: E -> R)          // of your program if >- operator is used
     (source: Observable<E>)
         -> Observable<R> {

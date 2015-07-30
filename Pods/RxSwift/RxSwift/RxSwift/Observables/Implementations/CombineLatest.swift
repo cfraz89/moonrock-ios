@@ -67,7 +67,7 @@ class CombineLatestSink<O: ObserverType> : Sink<O>, CombineLatestProtocol {
         else {
             var allOthersDone = true
             
-            var arity = self.isDone.count
+            let arity = self.isDone.count
             for var i = 0; i < arity; ++i {
                 if i != index && !isDone[i] {
                     allOthersDone = false
@@ -132,8 +132,7 @@ class CombineLatestObserver<ElementType> : ObserverType {
     func on(event: Event<Element>) {
         lock.performLocked {
             switch event {
-            case .Next(let boxedValue):
-                let value = boxedValue.value
+            case .Next(let value):
                 setLatestValue(value)
                 parent.next(index)
             case .Error(let error):

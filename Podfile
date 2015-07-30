@@ -3,11 +3,9 @@
 use_frameworks!
 
 target 'RxSwiftBridgeTest' do
-    pod 'RxSwift', '~> 1.7'
-    pod 'RxCocoa', '~> 1.7'
-    pod "EVReflection"
-    pod "OCMapper"
-    pod "ObjectMapper"
+    pod 'RxSwift', :git => 'https://github.com/kzaher/RxSwift.git', :branch => 'feature/swift2.0'
+    pod 'RxCocoa', :git => 'https://github.com/kzaher/RxSwift.git', :branch => 'feature/swift2.0'
+    pod 'ObjectMapper', :git => 'https://github.com/Hearst-DD/ObjectMapper.git', :branch => 'swift-2.0'
 end
 
 target 'RxSwiftBridgeTestTests' do

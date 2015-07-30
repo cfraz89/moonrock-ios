@@ -8,7 +8,6 @@
 
 import Foundation
 import WebKit
-import EVReflection
 import RxSwift
 
 class MoonRock {
@@ -118,7 +117,7 @@ class MoonRock {
         }
     }
     
-    func runJS(js: String, callback:((AnyObject!, NSError!)->Void)?) {
+    func runJS(js: String, callback:((AnyObject?, NSError?)->Void)?) {
         self.webView!.evaluateJavaScript(js, completionHandler: callback)
     }
 }

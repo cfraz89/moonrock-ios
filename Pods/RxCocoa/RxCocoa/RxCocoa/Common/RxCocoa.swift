@@ -16,6 +16,7 @@ public enum RxCocoaError : Int {
     case Unknown = 0
     case NetworkError = 1
     case InvalidOperation = 2
+    case KeyPathInvalid = 3
 }
 
 let defaultHeight: CGFloat = -1
@@ -24,15 +25,22 @@ public let RxCocoaErrorDomain = "RxCocoaError"
 
 public let RxCocoaErrorHTTPResponseKey = "RxCocoaErrorHTTPResponseKey"
 
-func rxError(errorCode: RxCocoaError, message: String) -> NSError {
+func rxError(errorCode: RxCocoaError, _ message: String) -> NSError {
     return NSError(domain: RxCocoaErrorDomain, code: errorCode.rawValue, userInfo: [NSLocalizedDescriptionKey: message])
 }
 
+#if !RELEASE
+public func _rxError(errorCode: RxCocoaError, message: String, userInfo: NSDictionary) -> NSError {
+    return rxError(errorCode, message: message, userInfo: userInfo)
+}
+#endif
+
 func rxError(errorCode: RxCocoaError, message: String, userInfo: NSDictionary) -> NSError {
-    let mutableDictionary = NSMutableDictionary(dictionary: userInfo as! [NSObject : AnyObject])
-    mutableDictionary[NSLocalizedDescriptionKey] = message
-    // swift compiler :(
-    let resultInfo: [NSObject: AnyObject] = (userInfo as NSObject) as! [NSObject: AnyObject]
+    var resultInfo: [NSObject: AnyObject] = [:]
+    resultInfo[NSLocalizedDescriptionKey] = message
+    for k in userInfo.allKeys {
+        resultInfo[k as! NSObject] = userInfo[k as! NSCopying]
+    }
     return NSError(domain: RxCocoaErrorDomain, code: Int(errorCode.rawValue), userInfo: resultInfo)
 }
 
@@ -62,7 +70,7 @@ func rxPossiblyFatalError(error: String) {
 #if DEBUG
     rxFatalError(error)
 #else
-    println("[RxSwift]: \(error)")
+    print("[RxSwift]: \(error)")
 #endif
 }
 
@@ -123,3 +131,13 @@ let dataSourceNotSet = "DataSource not set"
 let delegateNotSet = "Delegate not set"
 
 // }
+
+
+extension NSObject {
+    func rx_synchronized<T>(@noescape action: () -> T) -> T {
+        objc_sync_enter(self)
+        let result = action()
+        objc_sync_exit(self)
+        return result
+    }
+}

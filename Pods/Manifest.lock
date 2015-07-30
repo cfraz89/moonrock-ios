@@ -1,23 +1,39 @@
 PODS:
-  - EVReflection (2.2.0)
   - ObjectMapper (0.14)
-  - OCMapper (2.1)
-  - RxCocoa (1.7):
+  - RxCocoa (1.8.1):
     - RxSwift
-  - RxSwift (1.7)
+  - RxSwift (1.8.1)
 
 DEPENDENCIES:
-  - EVReflection
-  - ObjectMapper
-  - OCMapper
-  - RxCocoa (~> 1.7)
-  - RxSwift (~> 1.7)
+  - ObjectMapper (from `https://github.com/Hearst-DD/ObjectMapper.git`, branch `swift-2.0`)
+  - RxCocoa (from `https://github.com/kzaher/RxSwift.git`, branch `feature/swift2.0`)
+  - RxSwift (from `https://github.com/kzaher/RxSwift.git`, branch `feature/swift2.0`)
+
+EXTERNAL SOURCES:
+  ObjectMapper:
+    :branch: swift-2.0
+    :git: https://github.com/Hearst-DD/ObjectMapper.git
+  RxCocoa:
+    :branch: feature/swift2.0
+    :git: https://github.com/kzaher/RxSwift.git
+  RxSwift:
+    :branch: feature/swift2.0
+    :git: https://github.com/kzaher/RxSwift.git
+
+CHECKOUT OPTIONS:
+  ObjectMapper:
+    :commit: 7b6cb12d7fcbc19e944187cd27567f9767fa1ea3
+    :git: https://github.com/Hearst-DD/ObjectMapper.git
+  RxCocoa:
+    :commit: b42c76735e5789c1c354e37f298c75757dbb74f2
+    :git: https://github.com/kzaher/RxSwift.git
+  RxSwift:
+    :commit: b42c76735e5789c1c354e37f298c75757dbb74f2
+    :git: https://github.com/kzaher/RxSwift.git
 
 SPEC CHECKSUMS:
-  EVReflection: 2bc64f71b70acaba5d61e88b8f3c0e3aee7b9efc
   ObjectMapper: 45b97fa0a68c3851daad3efca87bc6c1ab1718c0
-  OCMapper: fa22e7b51de7cc38e66b993037076d28a0f31b29
-  RxCocoa: 2c7faa37d5ac8bd94825c0953a3778a8b0aa6384
-  RxSwift: 10544d9e14377965605f5c7aebffe590f7272ebe
+  RxCocoa: c18c3c73effb0780f3540c50beeb84b0ad508477
+  RxSwift: 7f3af11a6923f772d21a1e2723f7be660c6ee24f
 
-COCOAPODS: 0.37.2
+COCOAPODS: 0.38.2

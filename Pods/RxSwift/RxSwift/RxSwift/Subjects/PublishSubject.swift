@@ -12,7 +12,7 @@ class Subscription<Element> : Disposable {
     typealias ObserverType = Observer<Element>
     typealias KeyType = Bag<Void>.KeyType
     
-    private let subject : PublishSubject<Element>
+    private let subject: PublishSubject<Element>
     private var key: KeyType
     
     private var lock = Lock()
@@ -26,7 +26,7 @@ class Subscription<Element> : Disposable {
     
     func dispose() {
         lock.performLocked {
-            if let observer = self.observer {
+            if let _ = self.observer {
                 self.observer = nil
                 self.subject.unsubscribe(self.key)
             }
@@ -34,7 +34,7 @@ class Subscription<Element> : Disposable {
     }
 }
 
-@availability(*, deprecated=1.7, message="Replaced by PublishSubject")
+@available(*, deprecated=1.7, message="Replaced by PublishSubject")
 public class Subject<Element> : PublishSubject<Element> {
     
     public override init() {
@@ -42,7 +42,7 @@ public class Subject<Element> : PublishSubject<Element> {
     }
 }
 
-public class PublishSubject<Element> : SubjectType<Element, Element>, Disposable {
+public class PublishSubject<Element> : SubjectType<Element, Element>, Cancelable {
     typealias ObserverOf = Observer<Element>
     typealias KeyType = Bag<Void>.KeyType
     typealias Observers = Bag<ObserverOf>
@@ -60,6 +60,14 @@ public class PublishSubject<Element> : SubjectType<Element, Element>, Disposable
         stoppedEvent: nil
     )
     
+    public var disposed: Bool {
+        get {
+            return self.lock.calculateLocked {
+                return state.disposed
+            }
+        }
+    }
+    
     public override init() {
         super.init()
     }
@@ -73,7 +81,7 @@ public class PublishSubject<Element> : SubjectType<Element, Element>, Disposable
     
     public override func on(event: Event<Element>) {
         switch event {
-        case .Next(let value):
+        case .Next(_):
             let observers = lock.calculateLocked { () -> [ObserverOf]? in
                 let state = self.state
                 let shouldReturnImmediatelly = state.disposed || state.stoppedEvent != nil
@@ -93,7 +101,7 @@ public class PublishSubject<Element> : SubjectType<Element, Element>, Disposable
         let observers: [Observer] = lock.calculateLocked { () -> [ObserverOf] in
             let state = self.state
             
-            var observers = self.state.observers.all
+            let observers = self.state.observers.all
             
             switch event {
             case .Completed: fallthrough

@@ -25,6 +25,6 @@ extension Int: MRMappable {
     }
     
     func fromJson(json: String) -> Int? {
-        return json.toInt()
+        return Int(json)
     }
 }

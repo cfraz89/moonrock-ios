@@ -1,1 +1,1 @@
-../../../RxCocoa/RxCocoa/RxCocoa/Common/RxCocoa.h
+../../../RxCocoa/RxCocoa/RxCocoa/RxCocoa.h
