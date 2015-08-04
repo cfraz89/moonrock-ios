@@ -93,7 +93,7 @@ typedef int swift_int4  __attribute__((__ext_vector_type__(4)));
 @import UIKit;
 #endif
 
-#import <RxCocoa/RxCocoa.h>
+#import "RxCocoa.h"
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
