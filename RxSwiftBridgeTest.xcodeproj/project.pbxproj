@@ -11,6 +11,10 @@
 		1B3379D31B4C390C00257BA5 /* PostList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3379D21B4C390C00257BA5 /* PostList.swift */; };
 		1B3379D91B4C3C8600257BA5 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3379D81B4C3C8600257BA5 /* PostCell.swift */; };
 		1B3379DB1B4C3DA400257BA5 /* PostsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3379DA1B4C3DA400257BA5 /* PostsDataSource.swift */; };
+		1B4D022A1B70BB96009C088A /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B4D02271B70BB96009C088A /* ObjectMapper.framework */; };
+		1B4D022B1B70BB96009C088A /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B4D02281B70BB96009C088A /* RxCocoa.framework */; };
+		1B4D022C1B70BB96009C088A /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B4D02291B70BB96009C088A /* RxSwift.framework */; };
+		1B4D022E1B70BBAE009C088A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B4D022D1B70BBAE009C088A /* CoreFoundation.framework */; };
 		1B6898BA1B4B6EF20035EFC9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6898B91B4B6EF20035EFC9 /* AppDelegate.swift */; };
 		1B6898BC1B4B6EF20035EFC9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6898BB1B4B6EF20035EFC9 /* ViewController.swift */; };
 		1B6898BF1B4B6EF20035EFC9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B6898BD1B4B6EF20035EFC9 /* Main.storyboard */; };
@@ -53,6 +57,10 @@
 		1B3379D21B4C390C00257BA5 /* PostList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostList.swift; sourceTree = "<group>"; };
 		1B3379D81B4C3C8600257BA5 /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		1B3379DA1B4C3DA400257BA5 /* PostsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsDataSource.swift; sourceTree = "<group>"; };
+		1B4D02271B70BB96009C088A /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Frameworks/ObjectMapper.framework; sourceTree = "<group>"; };
+		1B4D02281B70BB96009C088A /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Frameworks/RxCocoa.framework; sourceTree = "<group>"; };
+		1B4D02291B70BB96009C088A /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Frameworks/RxSwift.framework; sourceTree = "<group>"; };
+		1B4D022D1B70BBAE009C088A /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		1B6898B41B4B6EF20035EFC9 /* RxSwiftBridgeTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxSwiftBridgeTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B6898B81B4B6EF20035EFC9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B6898B91B4B6EF20035EFC9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -89,6 +97,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B4D022E1B70BBAE009C088A /* CoreFoundation.framework in Frameworks */,
+				1B4D022A1B70BB96009C088A /* ObjectMapper.framework in Frameworks */,
+				1B4D022B1B70BB96009C088A /* RxCocoa.framework in Frameworks */,
+				1B4D022C1B70BB96009C088A /* RxSwift.framework in Frameworks */,
 				5D3A51000601CD72F46487A3 /* Pods_RxSwiftBridgeTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -210,6 +222,10 @@
 		9A6C0C437D0EEB8EC215A969 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1B4D022D1B70BBAE009C088A /* CoreFoundation.framework */,
+				1B4D02271B70BB96009C088A /* ObjectMapper.framework */,
+				1B4D02281B70BB96009C088A /* RxCocoa.framework */,
+				1B4D02291B70BB96009C088A /* RxSwift.framework */,
 				77F2F6FD4683035CE1F26E52 /* Pods_RxSwiftBridgeTest.framework */,
 			);
 			name = Frameworks;
@@ -513,10 +529,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8A23419D9648163756F7CCB9 /* Pods-RxSwiftBridgeTest.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/RxCocoa.framework/**";
+				"HEADER_SEARCH_PATHS[arch=*]" = "$(PROJECT_DIR)/Frameworks";
 				INFOPLIST_FILE = RxSwiftBridgeTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/RxCocoa.framework/**";
 			};
 			name = Debug;
 		};
@@ -524,10 +549,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 02F337FDB7615AA63E8DCE94 /* Pods-RxSwiftBridgeTest.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/**";
 				INFOPLIST_FILE = RxSwiftBridgeTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/RxCocoa.framework/**";
 			};
 			name = Release;
 		};
