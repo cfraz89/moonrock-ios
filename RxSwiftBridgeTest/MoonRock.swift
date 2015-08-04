@@ -11,7 +11,6 @@ import WebKit
 import RxSwift
 
 class MoonRock {
-    let DEFAULT_BASE: String = "file:///"
     let DEFAULT_PAGE: String = "moonrock.html"
     
     let streamManager: MRStreamManager
@@ -43,7 +42,7 @@ class MoonRock {
         readySubject = PublishSubject<MoonRock>()
         
         needsLoad = true
-        _baseUrl = DEFAULT_BASE
+        _baseUrl = "file://"+NSBundle.mainBundle().bundlePath + "/Assets/"
         pageUrl = DEFAULT_PAGE
         
         webView = nil
@@ -70,18 +69,19 @@ class MoonRock {
     }
     
     func load() {
-        //var url = NSBundle.mainBundle().URLForResource("Assets/bridge", withExtension: "html");
-        var url = NSURL(string: "\(baseUrl)/\(pageUrl)")
+        if let url = NSURL(string: "\(baseUrl)/\(pageUrl)") {
+            var pusher = MRSingleShotReversePusher<MRValue<Int>>()
+            
+            streamManager.openStream("moonrock-configured", pusher: pusher)
+                >- subscribeNext { _ in
+                    sendNext(self.readySubject, self)
+                    sendCompleted(self.readySubject)
+                }
         
-        var pusher = MRSingleShotReversePusher<MRValue<Int>>()
-        streamManager.openStream("moonrock-configured", pusher: pusher)
-            >- subscribeNext { _ in
-                sendNext(self.readySubject, self)
-                sendCompleted(self.readySubject)
-            }
-        
-        webView!.loadRequest(NSURLRequest(URL: url!))
-        webView!.reloadFromOrigin()
+            //webView?.loadFileURL(url, allowingReadAccessToURL: url)
+            webView?.loadRequest(NSURLRequest(URL: url))
+            webView?.reloadFromOrigin()
+        }
     }
     
     func loadModule(moduleName: String, instanceName: String, host: NSObject) -> Observable<MoonRockModule> {

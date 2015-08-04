@@ -22,6 +22,12 @@ class MRNavigationDelegate : NSObject, WKNavigationDelegate {
     
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         var config = "prep('\(baseUrl)', 'ios')";
-        webView.evaluateJavaScript(config, completionHandler: nil)
+        webView.evaluateJavaScript(config) { (o, error) -> Void in
+            
+        }
+    }
+    
+    func webView(webView: WKWebView, didFailNavigation navigation: WKNavigation!, withError error: NSError) {
+        
     }
 }

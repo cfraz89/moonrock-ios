@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         self.postsDataSource = PostsDataSource(posts:[])
         super.init(coder: aDecoder)
         
-        self.moonRock.baseUrl = "http://localhost:8090"
+        self.moonRock.baseUrl = "http://localhost:8081"
         self.moonRock.loadModule("app/appmodule", instanceName: "appmodule", host: self)
             >- subscribeNext(self.setupPortals)
     }
