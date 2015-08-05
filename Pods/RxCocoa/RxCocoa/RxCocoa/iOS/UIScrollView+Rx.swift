@@ -7,7 +7,9 @@
 //
 
 import Foundation
+#if !RX_NO_MODULE
 import RxSwift
+#endif
 import UIKit
 
 extension UIScrollView {
@@ -27,11 +29,9 @@ extension UIScrollView {
     // properties
     
     public var rx_contentOffset: Observable<CGPoint> {
-        return proxyObservableForObject(self, { (b: RxScrollViewDelegateProxy, o) in
-            return b.addContentOffsetObserver(o)
-        }, { (b, d) -> () in
-            b.removeContentOffsetObserver(d)
-        })
+        let proxy = proxyForObject(self) as RxScrollViewDelegateProxy
+        
+        return proxy.contentOffsetSubject
     }
     
     // delegate

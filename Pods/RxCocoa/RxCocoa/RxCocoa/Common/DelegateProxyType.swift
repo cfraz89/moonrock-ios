@@ -7,7 +7,9 @@
 //
 
 import Foundation
+#if !RX_NO_MODULE
 import RxSwift
+#endif
 
 // `DelegateProxyType` protocol enables using both normal delegates and Rx observables with
 // views that can have only one delegate/datasource registered.
@@ -127,8 +129,8 @@ public func proxyForObject<P: DelegateProxyType>(object: AnyObject) -> P {
 }
 
 func installDelegate<P: DelegateProxyType>(proxy: P, delegate: AnyObject, retainDelegate: Bool, onProxyForObject object: AnyObject) -> Disposable {
+    weak var weakDelegate: AnyObject? = delegate
     
-    //assert(proxy === proxyForObject(object))
     assert(proxy.forwardToDelegate() === nil, "There is already a set delegate \(proxy.forwardToDelegate())")
     
     proxy.setForwardToDelegate(delegate, retainDelegate: retainDelegate)
@@ -143,26 +145,11 @@ func installDelegate<P: DelegateProxyType>(proxy: P, delegate: AnyObject, retain
     return AnonymousDisposable {
         MainScheduler.ensureExecutingOnScheduler()
         
-        assert(proxy.forwardToDelegate() === delegate, "Delegate was changed from time it was first set. Current \(proxy.forwardToDelegate()), and it should have been \(proxy)")
+        let delegate: AnyObject? = weakDelegate
+        
+        assert(delegate == nil || proxy.forwardToDelegate() === delegate, "Delegate was changed from time it was first set. Current \(proxy.forwardToDelegate()), and it should have been \(proxy)")
         
         proxy.setForwardToDelegate(nil, retainDelegate: retainDelegate)
-    }
-}
-
-func proxyObservableForObject<P: DelegateProxyType, Element, DisposeKey>(object: AnyObject,
-    addObserver: (P, ObserverOf<Element>) -> DisposeKey,
-    removeObserver: (P, DisposeKey) -> ())
-    -> Observable<Element> {
-    
-    return AnonymousObservable { observer in
-        let proxy: P = proxyForObject(object)
-        let key = addObserver(proxy, observer)
-        
-        return AnonymousDisposable {
-            MainScheduler.ensureExecutingOnScheduler()
-            
-            removeObserver(proxy, key)
-        }
     }
 }
 
@@ -172,12 +159,25 @@ func setProxyDataSourceForObject<P: DelegateProxyType, Element>(object: AnyObjec
         let proxy: P = proxyForObject(object)
         let disposable = installDelegate(proxy, dataSource, retainDataSource, onProxyForObject: object)
         
-        let subscription = source.subscribe(AnonymousObserver { event in
+        // we should never let the subscriber to complete because it should retain data source
+        let subscription = concat(returnElements(source, never())).subscribe(AnonymousObserver { event in
             MainScheduler.ensureExecutingOnScheduler()
             
             assert(proxy === P.currentDelegateFor(object), "Proxy changed from the time it was first set.\nOriginal: \(proxy)\nExisting: \(P.currentDelegateFor(object))")
             
             binding(proxy, event)
+            
+            switch event {
+            case .Error(let error):
+#if DEBUG
+               rxFatalError("Binding error to data source: \(error)")
+#endif
+                disposable.dispose()
+            case .Completed:
+                disposable.dispose()
+            default:
+                break
+            }
         })
             
         return StableCompositeDisposable.create(subscription, disposable)

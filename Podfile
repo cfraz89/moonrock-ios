@@ -3,11 +3,10 @@
 use_frameworks!
 
 target 'RxSwiftBridgeTest' do
-    pod 'RxSwift', '~> 1.7'
-    pod 'RxCocoa', '~> 1.7'
-    pod "EVReflection"
-    pod "OCMapper"
+    pod 'RxSwift', '~> 1.9'
+    pod 'RxCocoa', '~> 1.9'
     pod "ObjectMapper"
+    pod 'XWebView'
 end
 
 target 'RxSwiftBridgeTestTests' do

@@ -7,7 +7,9 @@
 //
 
 import Foundation
+#if !RX_NO_MODULE
 import RxSwift
+#endif
 
 func escapeTerminalString(value: String) -> String {
     return value.stringByReplacingOccurrencesOfString("\"", withString: "\\\"", options: NSStringCompareOptions.allZeros, range: nil)
@@ -64,16 +66,16 @@ extension NSURLSession {
         return create { observer in
             
             // smart compiler should be able to optimize this out
-            var d: NSDate!
+            var d: NSDate?
             
-            if Logging.URLRequests {
+            if Logging.URLRequests(request) {
                 d = NSDate()
             }
             
             let task = self.dataTaskWithRequest(request) { (data, response, error) in
                 
-                if Logging.URLRequests {
-                    let interval = NSDate().timeIntervalSinceDate(d)
+                if Logging.URLRequests(request) {
+                    let interval = NSDate().timeIntervalSinceDate(d ?? NSDate())
                     println(convertURLRequestToCurlCommand(request))
                     println(convertResponseToString(data, response, error, interval))
                 }

@@ -7,7 +7,9 @@
 //
 
 import Foundation
+#if !RX_NO_MODULE
 import RxSwift
+#endif
 
 var delegateAssociatedTag: UInt8 = 0
 var dataSourceAssociatedTag: UInt8 = 0
@@ -90,6 +92,9 @@ public class DelegateProxy : _RXDelegateProxy {
     }
     
     deinit {
+        for v in subjectsForSelector.values {
+            sendCompleted(v)
+        }
 #if TRACE_RESOURCES
         OSAtomicDecrement32(&resourceCount)
 #endif

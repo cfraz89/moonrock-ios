@@ -1,0 +1,8 @@
+framework module XWebView {
+  umbrella header "XWebView-umbrella.h"
+
+  export *
+  module * { export * }
+
+  private header "XWVHttpConnection.h"
+}

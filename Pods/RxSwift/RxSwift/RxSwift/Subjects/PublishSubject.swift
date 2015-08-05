@@ -12,10 +12,10 @@ class Subscription<Element> : Disposable {
     typealias ObserverType = Observer<Element>
     typealias KeyType = Bag<Void>.KeyType
     
-    private let subject : PublishSubject<Element>
+    private let subject: PublishSubject<Element>
     private var key: KeyType
     
-    private var lock = Lock()
+    private var lock = SpinLock()
     private var observer: ObserverType?
     
     init(subject: PublishSubject<Element>, key: KeyType, observer: ObserverType) {
@@ -42,7 +42,7 @@ public class Subject<Element> : PublishSubject<Element> {
     }
 }
 
-public class PublishSubject<Element> : SubjectType<Element, Element>, Disposable {
+public class PublishSubject<Element> : SubjectType<Element, Element>, Cancelable {
     typealias ObserverOf = Observer<Element>
     typealias KeyType = Bag<Void>.KeyType
     typealias Observers = Bag<ObserverOf>
@@ -53,12 +53,20 @@ public class PublishSubject<Element> : SubjectType<Element, Element>, Disposable
         stoppedEvent: Event<Element>?
     )
     
-    private var lock = Lock()
+    private var lock = SpinLock()
     private var state: State = (
         disposed: false,
         observers: Observers(),
         stoppedEvent: nil
     )
+    
+    public var disposed: Bool {
+        get {
+            return self.lock.calculateLocked {
+                return state.disposed
+            }
+        }
+    }
     
     public override init() {
         super.init()

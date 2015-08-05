@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1B3379CD1B4C2CDE00257BA5 /* TestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3379CC1B4C2CDE00257BA5 /* TestModel.swift */; };
 		1B3379D11B4C38D600257BA5 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3379D01B4C38D600257BA5 /* Post.swift */; };
 		1B3379D31B4C390C00257BA5 /* PostList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3379D21B4C390C00257BA5 /* PostList.swift */; };
 		1B3379D91B4C3C8600257BA5 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3379D81B4C3C8600257BA5 /* PostCell.swift */; };
@@ -50,7 +49,6 @@
 
 /* Begin PBXFileReference section */
 		02F337FDB7615AA63E8DCE94 /* Pods-RxSwiftBridgeTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwiftBridgeTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxSwiftBridgeTest/Pods-RxSwiftBridgeTest.release.xcconfig"; sourceTree = "<group>"; };
-		1B3379CC1B4C2CDE00257BA5 /* TestModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestModel.swift; sourceTree = "<group>"; };
 		1B3379D01B4C38D600257BA5 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		1B3379D21B4C390C00257BA5 /* PostList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostList.swift; sourceTree = "<group>"; };
 		1B3379D81B4C3C8600257BA5 /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
@@ -132,7 +130,6 @@
 				1B6898D91B4B6FC50035EFC9 /* Bridge */,
 				1B6898B91B4B6EF20035EFC9 /* AppDelegate.swift */,
 				1B6898BB1B4B6EF20035EFC9 /* ViewController.swift */,
-				1B3379CC1B4C2CDE00257BA5 /* TestModel.swift */,
 				1B6898BD1B4B6EF20035EFC9 /* Main.storyboard */,
 				1B6898C01B4B6EF20035EFC9 /* Images.xcassets */,
 				1B6898C21B4B6EF20035EFC9 /* LaunchScreen.xib */,
@@ -378,7 +375,6 @@
 				1B3379D11B4C38D600257BA5 /* Post.swift in Sources */,
 				1B88A60C1B5BDDDA00CD4047 /* MRReversePusher.swift in Sources */,
 				1BF6D4551B68450800A3AFEF /* MRValue.swift in Sources */,
-				1B3379CD1B4C2CDE00257BA5 /* TestModel.swift in Sources */,
 				1BC5281D1B572144003B4AB7 /* MRReversePortalManager.swift in Sources */,
 				1BF6D45B1B69122900A3AFEF /* MRExtensions.swift in Sources */,
 				1BC528191B4CC825003B4AB7 /* MRNavigationDelegate.swift in Sources */,

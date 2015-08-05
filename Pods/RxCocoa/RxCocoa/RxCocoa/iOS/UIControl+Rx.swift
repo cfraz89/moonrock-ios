@@ -7,7 +7,9 @@
 //
 
 import Foundation
+#if !RX_NO_MODULE
 import RxSwift
+#endif
 import UIKit
 
 extension UIControl {
@@ -23,7 +25,7 @@ extension UIControl {
             return AnonymousDisposable {
                 controlTarget.dispose()
             }
-        }
+        } >- takeUntil(rx_deallocated)
     }
     
     func rx_value<T>(getValue: () -> T) -> Observable<T> {
@@ -31,14 +33,14 @@ extension UIControl {
             
             sendNext(observer, getValue())
             
-            let controlTarget = ControlTarget(control: self, controlEvents: UIControlEvents.EditingChanged) { control in
+            let controlTarget = ControlTarget(control: self, controlEvents: UIControlEvents.EditingChanged | .ValueChanged) { control in
                 sendNext(observer, getValue())
             }
             
             return AnonymousDisposable {
                 controlTarget.dispose()
             }
-        }
+        } >- takeUntil(rx_deallocated)
     }
 
     public func rx_subscribeEnabledTo(source: Observable<Bool>) -> Disposable {

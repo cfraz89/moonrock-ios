@@ -7,7 +7,9 @@
 //
 
 import Foundation
+#if !RX_NO_MODULE
 import RxSwift
+#endif
 #if os(iOS)
     import UIKit
 #endif
@@ -16,6 +18,7 @@ public enum RxCocoaError : Int {
     case Unknown = 0
     case NetworkError = 1
     case InvalidOperation = 2
+    case KeyPathInvalid = 3
 }
 
 let defaultHeight: CGFloat = -1
@@ -28,25 +31,23 @@ func rxError(errorCode: RxCocoaError, message: String) -> NSError {
     return NSError(domain: RxCocoaErrorDomain, code: errorCode.rawValue, userInfo: [NSLocalizedDescriptionKey: message])
 }
 
-func rxError(errorCode: RxCocoaError, message: String, userInfo: NSDictionary) -> NSError {
-    let mutableDictionary = NSMutableDictionary(dictionary: userInfo as! [NSObject : AnyObject])
-    mutableDictionary[NSLocalizedDescriptionKey] = message
-    // swift compiler :(
-    let resultInfo: [NSObject: AnyObject] = (userInfo as NSObject) as! [NSObject: AnyObject]
-    return NSError(domain: RxCocoaErrorDomain, code: Int(errorCode.rawValue), userInfo: resultInfo)
+#if !RELEASE
+public func _rxError(errorCode: RxCocoaError, message: String, userInfo: NSDictionary) -> NSError {
+    return rxError(errorCode, message, userInfo)
 }
+#endif
 
-func removingObserverFailed() {
-    rxFatalError("Removing observer for key failed")
+func rxError(errorCode: RxCocoaError, message: String, userInfo: NSDictionary) -> NSError {
+    var resultInfo: [NSObject: AnyObject] = [:]
+    resultInfo[NSLocalizedDescriptionKey] = message
+    for k in userInfo.allKeys {
+        resultInfo[k as! NSObject] = userInfo[k as! NSCopying]
+    }
+    return NSError(domain: RxCocoaErrorDomain, code: Int(errorCode.rawValue), userInfo: resultInfo)
 }
 
 func handleVoidObserverResult(result: RxResult<Void>) {
     handleObserverResult(result)
-}
-
-func rxFatalError(lastMessage: String) {
-    // The temptation to comment this line is great, but please don't, it's for your own good. The choice is yours.
-    fatalError(lastMessage)
 }
 
 func bindingErrorToInterface(error: ErrorType) {
@@ -64,11 +65,6 @@ func rxPossiblyFatalError(error: String) {
 #else
     println("[RxSwift]: \(error)")
 #endif
-}
-
-func rxFatalErrorAndDontReturn<T>(lastMessage: String) -> T {
-    rxFatalError(lastMessage)
-    return (nil as T!)!
 }
 
 func rxAbstractMethodWithMessage<T>(message: String) -> T {
@@ -123,3 +119,31 @@ let dataSourceNotSet = "DataSource not set"
 let delegateNotSet = "Delegate not set"
 
 // }
+
+
+func rxFatalErrorAndDontReturn<T>(lastMessage: String) -> T {
+    rxFatalError(lastMessage)
+    return (nil as T!)!
+}
+
+#if !RX_NO_MODULE
+
+func rxFatalError(lastMessage: String) {
+    // The temptation to comment this line is great, but please don't, it's for your own good. The choice is yours.
+    fatalError(lastMessage)
+}
+
+extension NSObject {
+    func rx_synchronized<T>(@noescape action: () -> T) -> T {
+        objc_sync_enter(self)
+        let result = action()
+        objc_sync_exit(self)
+        return result
+    }
+}
+
+func removingObserverFailed() {
+    rxFatalError("Removing observer for key failed")
+}
+    
+#endif

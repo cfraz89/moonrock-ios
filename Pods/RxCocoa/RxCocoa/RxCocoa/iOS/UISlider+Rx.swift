@@ -7,23 +7,13 @@
 //
 
 import Foundation
+#if !RX_NO_MODULE
 import RxSwift
+#endif
 import UIKit
 
 extension UISlider {
     public var rx_value: Observable<Float> {
-        return AnonymousObservable { observer in
-            MainScheduler.ensureExecutingOnScheduler()
-            
-            sendNext(observer, self.value)
-            
-            let observer = ControlTarget(control: self, controlEvents: UIControlEvents.ValueChanged) { control in
-                sendNext(observer, (control as! UISlider).value)
-            }
-            
-            return AnonymousDisposable {
-                observer.dispose()
-            }
-        }
+        return rx_value { [unowned self] in self.value }
     }
 }

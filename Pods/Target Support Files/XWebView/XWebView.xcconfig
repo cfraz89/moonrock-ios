@@ -1,0 +1,1 @@
+XWEBVIEW_OTHER_LDFLAGS = -framework "MobileCoreServices" -framework "WebKit"

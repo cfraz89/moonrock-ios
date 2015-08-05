@@ -38,7 +38,7 @@ class ReplaySubscription<Element> : Disposable {
         disposeKey: DisposeKey?
     )
     
-    var lock = Lock()
+    var lock = SpinLock()
     var state: State
     
     init(subject: Subject, disposeKey: DisposeKey) {
@@ -77,7 +77,7 @@ class ReplayBufferBase<Element> : ReplaySubjectImplementation<Element> {
     )
     
     
-    var lock = Lock()
+    var lock = SpinLock()
     
     var state: State = (
         disposed: false,
@@ -272,10 +272,6 @@ public class ReplaySubject<Element> : SubjectType<Element, Element> {
     typealias DisposeKey = BagType.KeyType
     
     let implementation: ReplaySubjectImplementation<Element>
-    
-    public init(firstElement: Element) {
-        implementation = ReplayOne(firstElement: firstElement)
-    }
     
     public init(bufferSize: Int) {
         if bufferSize == 1 {
